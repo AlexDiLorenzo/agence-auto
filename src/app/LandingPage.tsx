@@ -245,43 +245,68 @@ export default function LandingPage() {
       {/* ROI Calculator */}
       <section id="roi" className="py-16 sm:py-24 scroll-mt-28">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid lg:grid-cols-2 gap-10 items-start">
-            <div>
-              <h2 className="text-3xl font-extrabold tracking-tight">Votre retour sur investissement</h2>
-              <p className="mt-3 text-neutral-700">Même avec un seul process automatisé, le gain est immédiat.</p>
-              <div className="mt-6 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-                <div className="grid sm:grid-cols-3 gap-6">
-                  <div>
-                    <label className="text-sm font-medium">Heures gagnées / semaine</label>
-                    <input type="range" min={1} max={40} value={hoursPerWeek} onChange={(e) => setHoursPerWeek(parseInt(e.target.value))} className="w-full" />
-                    <div className="mt-1 text-sm text-neutral-700">{hoursPerWeek} h</div>
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Coût horaire (€)</label>
-                    <input type="number" value={hourCost} onChange={(e) => setHourCost(Number(e.target.value) || 0)} className="w-full rounded-lg border border-neutral-300 px-3 py-2" />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Abonnement mensuel (€)</label>
-                    <input type="number" value={monthlyFee} onChange={(e) => setMonthlyFee(Number(e.target.value) || 0)} className="w-full rounded-lg border border-neutral-300 px-3 py-2" />
-                  </div>
+          {/* Titre + intro sur toute la largeur */}
+          <div className="max-w-2xl">
+            <h2 className="text-3xl font-extrabold tracking-tight">Votre retour sur investissement</h2>
+            <p className="mt-3 texts-neutral-700">Même avec un seul process automatisé, le gain est immédiat.</p>
+          </div>
+
+          {/* Grille: uniquement les deux cartes pour garantir l'alignement */}
+          <div className="mt-6 grid lg:grid-cols-2 gap-10 items-start">
+            {/* Carte ROI (gauche) */}
+            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+              <div className="grid sm:grid-cols-3 gap-6">
+                <div>
+                  <label className="text-sm font-medium">Heures gagnées / semaine</label>
+                  <input
+                    type="range"
+                    min={1}
+                    max={40}
+                    value={hoursPerWeek}
+                    onChange={(e) => setHoursPerWeek(parseInt(e.target.value))}
+                    className="w-full"
+                  />
+                  <div className="mt-1 text-sm text-neutral-700">{hoursPerWeek} h</div>
                 </div>
-                <div className="mt-6 grid sm:grid-cols-3 gap-6 text-center">
-                  <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-4">
-                    <div className="text-xs text-neutral-600">Économie mensuelle</div>
-                    <div className="text-2xl font-extrabold">{monthlySaved.toLocaleString("fr-FR")} €</div>
-                  </div>
-                  <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-4">
-                    <div className="text-xs text-neutral-600">ROI net / mois</div>
-                    <div className="text-2xl font-extrabold">{roi.toLocaleString("fr-FR")} €</div>
-                  </div>
-                  <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-4">
-                    <div className="text-xs text-neutral-600">x l’abonnement</div>
-                    <div className="text-2xl font-extrabold">{isFinite(roiPct) ? `${roiPct} %` : "—"}</div>
-                  </div>
+                <div>
+                  <label className="text-sm font-medium">Coût horaire (€)</label>
+                  <input
+                    type="number"
+                    value={hourCost}
+                    onChange={(e) => setHourCost(Number(e.target.value) || 0)}
+                    className="w-full rounded-lg border border-neutral-300 px-3 py-2"
+                  />
                 </div>
-                <p className="mt-4 text-xs text-neutral-600">Référence : 1 ETP ≈ 2 300 €/mois. Avec l’automatisation, vous achetez des heures — pas des licences inutiles.</p>
+                <div>
+                  <label className="text-sm font-medium">Abonnement mensuel (€)</label>
+                  <input
+                    type="number"
+                    value={monthlyFee}
+                    onChange={(e) => setMonthlyFee(Number(e.target.value) || 0)}
+                    className="w-full rounded-lg border border-neutral-300 px-3 py-2"
+                  />
+                </div>
               </div>
+              <div className="mt-6 grid sm:grid-cols-3 gap-6 text-center">
+                <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-4">
+                  <div className="text-xs text-neutral-600">Économie mensuelle</div>
+                  <div className="text-2xl font-extrabold">{monthlySaved.toLocaleString("fr-FR")} €</div>
+                </div>
+                <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-4">
+                  <div className="text-xs text-neutral-600">ROI net / mois</div>
+                  <div className="text-2xl font-extrabold">{roi.toLocaleString("fr-FR")} €</div>
+                </div>
+                <div className="rounded-xl bg-neutral-50 border border-neutral-200 p-4">
+                  <div className="text-xs text-neutral-600">x l’abonnement</div>
+                  <div className="text-2xl font-extrabold">{isFinite(roiPct) ? `${roiPct} %` : "—"}</div>
+                </div>
+              </div>
+              <p className="mt-4 text-xs text-neutral-600">
+                Référence : 1 ETP ≈ 2 300 €/mois. Avec l’automatisation, vous achetez des heures — pas des licences inutiles.
+              </p>
             </div>
+
+            {/* Carte "Comment on travaille" (droite) */}
             <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
               <h3 className="text-lg font-bold">Comment on travaille</h3>
               <ul className="mt-3 space-y-3 text-sm text-neutral-700">
@@ -290,11 +315,14 @@ export default function LandingPage() {
                 <li className="flex gap-2"><span className="mt-1"><Rocket className="size-4" /></span><span><strong>Mise en production</strong> progressive, suivi via un mini tableau de bord.</span></li>
                 <li className="flex gap-2"><span className="mt-1"><ShieldCheck className="size-4" /></span><span><strong>Contrats simples</strong> : abonnement mensuel, résiliable, propriété des automatisations transférée si vous le souhaitez.</span></li>
               </ul>
-              <a href="#contact" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-neutral-900 text-white px-4 py-2 text-sm font-semibold hover:bg-neutral-800">Parler de votre process <ArrowRight className="size-4" /></a>
+              <a href="#contact" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-neutral-900 text-white px-4 py-2 text-sm font-semibold hover:bg-neutral-800">
+                Parler de votre process <ArrowRight className="size-4" />
+              </a>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* Sécurité */}
       <section id="securite" className="py-16 sm:py-24 bg-neutral-50 border-y border-neutral-200 scroll-mt-28">
@@ -331,7 +359,7 @@ export default function LandingPage() {
             <div className="aspect-video w-full overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100">
               <iframe
                 className="h-full w-full"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                src="https://youtu.be/79ZEOZ3-GKI"
                 title="Démo d’automatisation"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
