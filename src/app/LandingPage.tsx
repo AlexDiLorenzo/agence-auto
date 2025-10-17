@@ -404,7 +404,7 @@ export default function LandingPage() {
               </form>
               <div className="mt-4 text-sm text-neutral-600 flex flex-col gap-1">
                 <p className="flex items-center gap-2"><Phone className="size-4" /> 07 71 79 46 65</p>
-                <p className="flex items-center gap-2"><Mail className="size-4" /> alexandre.dilorenzo.pro@gmail.com</p>
+                <p className="flex items-center gap-2"><Mail className="size-4" /> contact@dynam8.org</p>
               </div>
             </div>
           </div>
