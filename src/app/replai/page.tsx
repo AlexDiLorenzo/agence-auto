@@ -5,7 +5,8 @@ import {
 
 export const metadata = {
   title: "Replai – Réponse automatique aux avis Google | Dynam8",
-  description: "Replai génère des réponses automatiques pertinentes à vos avis Google pour gagner du temps et booster votre SEO local.",
+  description:
+    "Replai génère des réponses automatiques pertinentes à vos avis Google pour gagner du temps et booster votre SEO local.",
 };
 
 const btn = {
@@ -13,12 +14,6 @@ const btn = {
     "inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white " +
     "bg-gradient-to-r from-sky-600 to-emerald-500 shadow-sm hover:from-sky-700 hover:to-emerald-600 " +
     "focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70",
-  secondary:
-    "inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold " +
-    "border border-sky-200/70 bg-white/80 text-neutral-900 hover:bg-white " +
-    "focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/60",
-  ghost:
-    "inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-neutral-700 hover:text-neutral-900",
 };
 
 const card =
@@ -27,7 +22,7 @@ const card =
 
 export default function ReplAiPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-sky-100 via-white to-white">
+    <main className="min-h-screen bg-gradient-to-br from-sky-200 via-sky-50 to-white">
       {/* HERO */}
       <section className="mx-auto max-w-7xl px-6 pt-16 pb-10">
         <div className="max-w-3xl">
@@ -41,7 +36,7 @@ export default function ReplAiPage() {
             améliorer votre <span className="font-semibold">SEO local</span>.
           </p>
 
-          {/* Prix haut de page (glass + border gradient) */}
+          {/* Prix haut de page */}
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <span
               className="inline-flex items-baseline gap-2 rounded-xl px-4 py-2 backdrop-blur
@@ -56,20 +51,24 @@ export default function ReplAiPage() {
             <span className="text-sm text-neutral-600">Sans engagement — annulez quand vous voulez.</span>
           </div>
 
-          {/* CTAs (plus de noir) */}
+          {/* CTA principal */}
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/#contact" className={btn.primary}>
               Accéder au service <ArrowRight className="size-4" />
             </Link>
-            <Link href="/#roi" className={btn.secondary}>
-              Estimer mon ROI
-            </Link>
           </div>
 
+          {/* Points clés */}
           <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-neutral-600">
-            <div className="flex items-center gap-2"><CheckCircle2 className="size-4 text-sky-600" /> Mise en place en 5 minutes</div>
-            <div className="flex items-center gap-2"><CheckCircle2 className="size-4 text-sky-600" /> Vous validez chaque réponse</div>
-            <div className="flex items-center gap-2"><CheckCircle2 className="size-4 text-sky-600" /> Équipe basée en France</div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="size-4 text-sky-600" /> Mise en place en 5 minutes
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="size-4 text-sky-600" /> Validation manuelle optionnelle pour les avis 1⭐
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="size-4 text-sky-600" /> Équipe basée en France
+            </div>
           </div>
         </div>
       </section>
@@ -96,7 +95,7 @@ export default function ReplAiPage() {
               { icon: Search, title: "Visibilité locale", desc: "Des réponses régulières et soignées : un signal positif pour Google." },
               { icon: ThumbsUp, title: "Engagement client", desc: "Un ton adapté à chaque avis pour renforcer la relation." },
               { icon: Gauge, title: "Désescalade négatifs", desc: "Réponses calmes, factuelles, avec issue constructive proposée." },
-              { icon: Timer, title: "Gain de temps", desc: "Relisez, ajustez, validez. Le gros du travail est déjà fait." },
+              { icon: Timer, title: "Gain de temps", desc: "Relisez, ajustez, validez si besoin. Le gros du travail est déjà fait." },
             ].map((b, i) => (
               <div key={i} className={card}>
                 <div className="flex items-center gap-3">
@@ -130,7 +129,7 @@ export default function ReplAiPage() {
                 <ShieldCheck className="size-6 text-sky-600" />
                 <h3 className="font-semibold">Ton maîtrisé</h3>
               </div>
-              <p className="mt-2 text-sm text-neutral-700">Aligné à votre charte. Pas de “review gating”. Vous validez avant publication.</p>
+              <p className="mt-2 text-sm text-neutral-700">Aligné à votre charte. Pas de “review gating”. Vous gardez le contrôle sur les avis sensibles.</p>
             </div>
           </div>
         </div>
@@ -141,12 +140,9 @@ export default function ReplAiPage() {
         <div className="mx-auto max-w-7xl px-6 text-center">
           <h3 className="text-2xl font-extrabold tracking-tight">Prêt à gagner du temps sur vos avis ?</h3>
           <p className="mt-3 text-neutral-700">On s’occupe des réponses. Vous gardez le contrôle.</p>
-          <div className="mt-6 flex justify-center gap-3">
+          <div className="mt-6 flex justify-center">
             <Link href="/#contact" className={btn.primary}>
               Accéder au service <ArrowRight className="size-4" />
-            </Link>
-            <Link href="/#roi" className={btn.secondary}>
-              Estimer mon ROI
             </Link>
           </div>
         </div>
