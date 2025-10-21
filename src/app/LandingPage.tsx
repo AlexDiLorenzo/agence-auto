@@ -126,7 +126,13 @@ export default function LandingPage() {
                 <a href="#roi" className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 text-white px-5 py-3 text-sm font-semibold hover:bg-neutral-800">
                   Estimer mon ROI <Calculator className="size-4" />
                 </a>
-                <Link href="/replai" className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-semibold hover:bg-neutral-100">
+                <Link
+                  href="/replai"
+                  className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white
+                            bg-gradient-to-r from-sky-600 to-emerald-500 shadow-sm
+                            hover:from-sky-700 hover:to-emerald-600
+                            focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/70"
+                >
                   Voir ReplAi <Play className="size-4" />
                 </Link>
               </div>
