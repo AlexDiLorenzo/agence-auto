@@ -6,6 +6,7 @@ import {
   Rocket, Lock, ArrowRight, Calculator, Mail, Phone,
   MessageSquare, Cpu, Clock, BarChart3
 } from "lucide-react";
+import Link from "next/link";
 
 // Logo SVG inline (piloté par currentColor)
 function Logo({ className = "h-8 w-8" }: { className?: string }) {
@@ -93,7 +94,7 @@ export default function LandingPage() {
             <a href="#concret" className="hover:text-neutral-600">Cas concrets</a>
             <a href="#roi" className="hover:text-neutral-600">ROI</a>
             <a href="#securite" className="hover:text-neutral-600">Sécurité</a>
-            <a href="#demo" className="hover:text-neutral-600">Démo</a>
+            <Link href="/replai" className="hover:text-neutral-600">ReplAi</Link>
             <a href="#contact" className="hover:text-neutral-600">Contact</a>
           </nav>
           <a href="#contact" className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 text-white px-4 py-2 text-sm font-medium hover:bg-neutral-800">
@@ -125,9 +126,9 @@ export default function LandingPage() {
                 <a href="#roi" className="inline-flex items-center gap-2 rounded-xl bg-neutral-900 text-white px-5 py-3 text-sm font-semibold hover:bg-neutral-800">
                   Estimer mon ROI <Calculator className="size-4" />
                 </a>
-                <a href="#demo" className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-semibold hover:bg-neutral-100">
-                  Voir une démo <Play className="size-4" />
-                </a>
+                <Link href="/replai" className="inline-flex items-center gap-2 rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-semibold hover:bg-neutral-100">
+                  Voir ReplAi <Play className="size-4" />
+                </Link>
               </div>
               <div className="mt-6 flex items-center gap-4 text-sm text-neutral-600">
                 <div className="flex items-center gap-2"><CheckCircle2 className="size-4" /> Déploiement en jours, pas en mois</div>
@@ -348,35 +349,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Demo */}
-      <section id="demo" className="py-16 sm:py-24 scroll-mt-28">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl font-extrabold tracking-tight">Voir pour croire</h2>
-            <p className="mt-3 text-neutral-700">Une courte vidéo pour visualiser comment l’assistant travaille à votre place.</p>
-          </div>
-          <div className="mt-6 grid lg:grid-cols-2 gap-8">
-            <div className="aspect-video w-full overflow-hidden rounded-2xl border border-neutral-200 bg-neutral-100">
-              <iframe
-                className="h-full w-full"
-                src="https://youtu.be/79ZEOZ3-GKI"
-                title="Démo d’automatisation"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-            <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h3 className="text-lg font-bold">Ce que vous verrez dans la démo</h3>
-              <ul className="mt-3 space-y-3 text-sm text-neutral-700">
-                <li className="flex gap-2"><span className="mt-1"><Play className="size-4" /></span><span>Un message WhatsApp entrant est lu, compris et trié automatiquement.</span></li>
-                <li className="flex gap-2"><span className="mt-1"><Play className="size-4" /></span><span>Une pièce jointe PDF est analysée, les infos clés sont extraites dans Excel.</span></li>
-                <li className="flex gap-2"><span className="mt-1"><Play className="size-4" /></span><span>Une relance polie est envoyée si une facture manque.</span></li>
-              </ul>
-              <a href="#contact" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-neutral-900 text-white px-4 py-2 text-sm font-semibold hover:bg-neutral-800">Demander une démo dédiée <ArrowRight className="size-4" /></a>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="py-16 sm:py-24 bg-gradient-to-br from-neutral-900 to-neutral-700 text-white">
