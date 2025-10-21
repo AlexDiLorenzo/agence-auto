@@ -87,7 +87,7 @@ export default function ReplAiPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-2xl">
             <h2 className="text-3xl font-extrabold tracking-tight">Pourquoi ReplAi ?</h2>
-            <p className="mt-3 text-neutral-700">Des réponses de qualité, en un temps record, avec un ton aligné à votre image.</p>
+            <p className="mt-3 text-neutral-700">Des réponses de qualité, dans un délai réduit, avec un ton aligné à votre image.</p>
           </div>
 
           <div className="mt-8 grid md:grid-cols-4 gap-6">
