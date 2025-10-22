@@ -78,7 +78,7 @@ export default function ReplaiPage() {
           Repl<span className="bg-gradient-to-r from-sky-600 to-emerald-500 bg-clip-text text-transparent">ai</span> — Réponse automatique aux avis Google
         </h1>
         <p className="mt-4 text-2xl sm:text-3xl font-semibold leading-snug">
-          Boostez la visibilité de votre établissement et l’engagement clients grâce à Repl
+          Boostez la visibilité de votre établissement et l’engagement client grâce à Repl
           <span className="bg-gradient-to-r from-sky-600 to-emerald-500 bg-clip-text text-transparent">Ai</span>
         </p>
         <p className="mt-3 text-neutral-700 text-lg">
