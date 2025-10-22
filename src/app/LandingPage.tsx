@@ -28,6 +28,7 @@ function Logo({ className = "h-8 w-8" }: { className?: string }) {
 
 // --- Page ---
 export default function LandingPage() {
+  // ROI state
   const [hoursPerWeek, setHoursPerWeek] = useState(10);
   const [hourCost, setHourCost] = useState(25);
   const [monthlyFee, setMonthlyFee] = useState(199);
@@ -38,6 +39,49 @@ export default function LandingPage() {
     () => (monthlyFee > 0 ? Math.round(((monthlySaved - monthlyFee) / monthlyFee) * 100) : 0),
     [monthlySaved, monthlyFee]
   );
+
+  // --- Contact form state + submit handler (POST /api/contact)
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState<null | "ok" | "error">(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSending(true);
+    setSent(null);
+    setErrorMsg(null);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const payload = {
+      name: String(formData.get("name") || ""),
+      email: String(formData.get("email") || ""),
+      phone: String(formData.get("phone") || ""),
+      message: String(formData.get("message") || ""),
+      website: String(formData.get("website") || ""), // honeypot
+    };
+
+    try {
+      const r = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok || !data?.ok) {
+        setSent("error");
+        setErrorMsg(data?.error || "Impossible d’envoyer le message.");
+      } else {
+        setSent("ok");
+        form.reset();
+      }
+    } catch {
+      setSent("error");
+      setErrorMsg("Erreur réseau. Réessayez dans un instant.");
+    } finally {
+      setSending(false);
+    }
+  }
 
   const pillars = [
     {
@@ -142,7 +186,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Vignette "Assistant à vos côtés" enrichie */}
+            {/* Vignette "Assistant à vos côtés" */}
             <div className="relative">
               <div className="aspect-[4/3] w-full rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm">
                 <div className="h-full w-full rounded-xl bg-gradient-to-br from-neutral-100 to-white p-4 sm:p-6">
@@ -252,15 +296,14 @@ export default function LandingPage() {
       {/* ROI Calculator */}
       <section id="roi" className="py-16 sm:py-24 scroll-mt-28">
         <div className="mx-auto max-w-7xl px-6">
-          {/* Titre + intro sur toute la largeur */}
+          {/* Titre + intro */}
           <div className="max-w-2xl">
             <h2 className="text-3xl font-extrabold tracking-tight">Votre retour sur investissement</h2>
             <p className="mt-3 texts-neutral-700">Même avec un seul process automatisé, le gain est immédiat.</p>
           </div>
 
-          {/* Grille: uniquement les deux cartes pour garantir l'alignement */}
           <div className="mt-6 grid lg:grid-cols-2 gap-10 items-start">
-            {/* Carte ROI (gauche) */}
+            {/* Carte ROI */}
             <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
               <div className="grid sm:grid-cols-3 gap-6">
                 <div>
@@ -313,7 +356,7 @@ export default function LandingPage() {
               </p>
             </div>
 
-            {/* Carte "Comment on travaille" (droite) */}
+            {/* Carte "Comment on travaille" */}
             <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
               <h3 className="text-lg font-bold">Comment on travaille</h3>
               <ul className="mt-3 space-y-3 text-sm text-neutral-700">
@@ -329,7 +372,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
 
       {/* Sécurité */}
       <section id="securite" className="py-16 sm:py-24 bg-neutral-50 border-y border-neutral-200 scroll-mt-28">
@@ -355,8 +397,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-
-      {/* CTA */}
+      {/* CTA (contact + envoi email) */}
       <section className="py-16 sm:py-24 bg-gradient-to-br from-neutral-900 to-neutral-700 text-white">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid lg:grid-cols-2 gap-10 items-center">
@@ -371,15 +412,43 @@ export default function LandingPage() {
             </div>
             <div id="contact" className="rounded-2xl bg-white text-neutral-900 p-6 border border-white/10 shadow-2xl scroll-mt-28">
               <h3 className="text-lg font-bold">Contact</h3>
-              <form className="mt-4 grid grid-cols-1 gap-4" onSubmit={(e) => e.preventDefault()}>
-                <input required placeholder="Nom" className="rounded-xl border border-neutral-300 px-3 py-2" />
-                <input required type="email" placeholder="Email" className="rounded-xl border border-neutral-300 px-3 py-2" />
-                <input placeholder="Téléphone (optionnel)" className="rounded-xl border border-neutral-300 px-3 py-2" />
-                <textarea required placeholder="Décrivez la tâche à automatiser" rows={4} className="rounded-xl border border-neutral-300 px-3 py-2" />
-                <button className="inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 text-white px-4 py-2 text-sm font-semibold hover:bg-neutral-800">
-                  Envoyer <Mail className="size-4" />
+
+              <form className="mt-4 grid grid-cols-1 gap-4" onSubmit={handleSubmit}>
+                {/* Honeypot anti-spam (caché) */}
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  className="sr-only"
+                  aria-hidden="true"
+                />
+
+                <input required name="name" placeholder="Nom" className="rounded-xl border border-neutral-300 px-3 py-2" />
+                <input required type="email" name="email" placeholder="Email" className="rounded-xl border border-neutral-300 px-3 py-2" />
+                <input name="phone" placeholder="Téléphone (optionnel)" className="rounded-xl border border-neutral-300 px-3 py-2" />
+                <textarea required name="message" placeholder="Décrivez la tâche à automatiser" rows={4} className="rounded-xl border border-neutral-300 px-3 py-2" />
+
+                <button
+                  disabled={sending}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-900 text-white px-4 py-2 text-sm font-semibold hover:bg-neutral-800 disabled:opacity-60"
+                >
+                  {sending ? "Envoi..." : <>Envoyer <Mail className="size-4" /></>}
                 </button>
+
+                {/* Messages de statut */}
+                {sent === "ok" && (
+                  <p className="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                    Merci ! Votre message a bien été envoyé.
+                  </p>
+                )}
+                {sent === "error" && (
+                  <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                    {errorMsg}
+                  </p>
+                )}
               </form>
+
               <div className="mt-4 text-sm text-neutral-600 flex flex-col gap-1">
                 <p className="flex items-center gap-2"><Phone className="size-4" /> 07 71 79 46 65</p>
                 <p className="flex items-center gap-2"><Mail className="size-4" /> contact@dynam8.fr</p>
