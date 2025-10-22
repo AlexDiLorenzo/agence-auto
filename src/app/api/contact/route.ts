@@ -8,7 +8,6 @@ function isValidEmail(email: string) {
 }
 
 export async function GET() {
-  // Pour tester facilement dans le navigateur
   return NextResponse.json({ ok: true, message: "Contact API up" });
 }
 
@@ -19,7 +18,7 @@ export async function POST(req: Request) {
     };
 
     // Honeypot anti-spam
-    if (website) return NextResponse.json({ ok: true });
+    if (website) return NextResponse.json({ ok: true }, { status: 200 });
 
     if (!name || !email || !message) {
       return NextResponse.json({ ok: false, error: "Champs requis manquants." }, { status: 400 });
@@ -30,9 +29,7 @@ export async function POST(req: Request) {
 
     const RESEND_API_KEY = process.env.RESEND_API_KEY;
     const CONTACT_TO = process.env.CONTACT_TO || "contact@dynam8.fr";
-    // Domaine Resend validé ? tu peux mettre ton from de prod ici
     const CONTACT_FROM = process.env.CONTACT_FROM || "Dynam8 <onboarding@resend.dev>";
-
     if (!RESEND_API_KEY) {
       return NextResponse.json({ ok: false, error: "RESEND_API_KEY manquante." }, { status: 500 });
     }
@@ -58,7 +55,6 @@ export async function POST(req: Request) {
       </div>
     `;
 
-    // Appel Resend (REST) — compatible runtime Edge / Cloudflare
     const resp = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -81,8 +77,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: msg }, { status: 500 });
     }
 
-    return NextResponse.json({ ok: true });
-  } catch (e: any) {
-    return NextResponse.json({ ok: false, error: e?.message || "Erreur serveur." }, { status: 500 });
+    return NextResponse.json({ ok: true }, { status: 200 });
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : "Erreur serveur.";
+    return NextResponse.json({ ok: false, error: msg }, { status: 500 });
   }
 }

@@ -60,13 +60,14 @@ export default function ReplaiPage() {
             <span className="font-medium text-neutral-900">Replai</span>
             <Link href="/#contact" className="hover:text-neutral-700">Contact</Link>
           </nav>
-          <a
+          <Link
             href="/#contact"
             className="inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium text-white
-                       bg-neutral-900/90 hover:bg-neutral-900"
+                      bg-neutral-900/90 hover:bg-neutral-900"
           >
             Discuter de votre besoin <ArrowRight className="size-4" />
-          </a>
+          </Link>
+
         </div>
       </header>
 
