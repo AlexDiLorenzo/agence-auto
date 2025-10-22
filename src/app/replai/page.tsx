@@ -154,7 +154,7 @@ export default function ReplaiPage() {
                 <h3 className="font-semibold">Ton maîtrisé</h3>
               </div>
               <p className="mt-2 text-sm text-neutral-700">
-                Aligné à votre charte. Pas de “review gating”. Validation manuelle optionnelle pour les avis 1⭐ (notification WhatsApp).
+                Aligné à votre charte. Validation manuelle optionnelle pour les avis 1⭐ (notification WhatsApp).
               </p>
             </div>
           </div>
