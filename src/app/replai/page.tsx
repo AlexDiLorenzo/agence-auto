@@ -4,9 +4,9 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Replai — Réponse automatique aux avis Google | Dynam8",
+  title: "ReplAI — Réponse automatique aux avis Google | Dynam8",
   description:
-    "Boostez la visibilité de votre établissement et l’engagement clients grâce à Replai. Vidéo, bénéfices, sécurité, prix et accès au service.",
+    "Boostez la visibilité de votre établissement et l’engagement clients grâce à ReplAI. Vidéo, bénéfices, sécurité, prix et accès au service.",
 };
 
 const btnPrimary =
@@ -57,7 +57,7 @@ export default function ReplaiPage() {
             <Link href="/#concret" className="hover:text-neutral-700">Cas concrets</Link>
             <Link href="/#roi" className="hover:text-neutral-700">ROI</Link>
             <Link href="/#securite" className="hover:text-neutral-700">Sécurité</Link>
-            <span className="font-medium text-neutral-900">Replai</span>
+            <span className="font-medium text-neutral-900">ReplAI</span>
             <Link href="/#contact" className="hover:text-neutral-700">Contact</Link>
           </nav>
           <Link
@@ -75,11 +75,11 @@ export default function ReplaiPage() {
       <section className="mx-auto max-w-7xl px-6 pt-12 pb-6">
         <div className="max-w-3xl">
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-          Repl<span className="bg-gradient-to-r from-sky-600 to-emerald-500 bg-clip-text text-transparent">ai</span> — Réponse automatique aux avis Google
+          Repl<span className="bg-gradient-to-r from-sky-600 to-emerald-500 bg-clip-text text-transparent">AI</span> — Réponse automatique aux avis Google
         </h1>
         <p className="mt-4 text-2xl sm:text-3xl font-semibold leading-snug">
           Boostez la visibilité de votre établissement et l’engagement client grâce à Repl
-          <span className="bg-gradient-to-r from-sky-600 to-emerald-500 bg-clip-text text-transparent">Ai</span>
+          <span className="bg-gradient-to-r from-sky-600 to-emerald-500 bg-clip-text text-transparent">AI</span>
         </p>
         <p className="mt-3 text-neutral-700 text-lg">
           La solution dynamique qui automatise des réponses personnalisées aux avis laissés par vos clients.
@@ -95,7 +95,7 @@ export default function ReplaiPage() {
             <iframe
               className="h-full w-full"
               src="https://www.youtube.com/embed/79ZEOZ3-GKI"
-              title="Replai — Démo produit"
+              title="ReplAI — Démo produit"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
@@ -108,7 +108,7 @@ export default function ReplaiPage() {
       <section className="py-10 sm:py-14">
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-extrabold tracking-tight">Pourquoi Replai ?</h2>
+            <h2 className="text-3xl font-extrabold tracking-tight">Pourquoi ReplAI ?</h2>
             <p className="mt-3 text-neutral-700">
               Des réponses de qualité, avec une <span className="font-semibold">cadence maîtrisée</span> et des
               <span className="font-semibold"> horaires d’envoi alignés</span> à votre activité — pas de messages intempestifs la nuit.
