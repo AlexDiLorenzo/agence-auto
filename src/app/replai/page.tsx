@@ -111,7 +111,7 @@ export default function ReplaiPage() {
             <h2 className="text-3xl font-extrabold tracking-tight">Pourquoi ReplAI ?</h2>
             <p className="mt-3 text-neutral-700">
               Des réponses de qualité, avec une <span className="font-semibold">cadence maîtrisée</span> et des
-              <span className="font-semibold"> horaires d’envoi alignés</span> à votre activité — pas de messages intempestifs la nuit.
+              <span className="font-semibold"> horaires d’envoi alignés</span> à votre activité
             </p>
           </div>
           <div className="mt-8 grid md:grid-cols-4 gap-6">
