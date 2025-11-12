@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------------
-// Logo (inline SVG, currentColor-aware for easy theming)
+// Logo (inline SVG, currentColor-aware for easy theming) – composant pur
 // --------------------------------------------------------------------------------------
 function Logo({ className = "h-8 w-8" }: { className?: string }) {
   return (
@@ -65,7 +65,7 @@ export default function LandingPage() {
     [monthlySaved]
   );
 
-  // Lien YouTube (non‑affiché dans l'UI). Laissez ce data-attribute pour le retrouver facilement.
+  // Lien YouTube (non-affiché dans l'UI). Laissez ce data-attribute pour le retrouver facilement.
   const youtubeUrl = "https://www.youtube.com/embed/VIDEO_ID";
 
   // --- Contact form state + submit handler (POST /api/contact)
@@ -166,30 +166,65 @@ export default function LandingPage() {
   ] as const;
 
   const steps = [
-    { title: "Connexion à votre fiche Google", icon: ShieldCheck, text: "On se connecte en lecture/écriture (accès limité et révocable à tout moment)." },
+    { title: "Connexion à votre fiche Google", icon: ShieldCheck, text: "Accès limité à votre compte, révocable à tout moment et protégé par un contrat" },
     { title: "Personnalisation en 48h", icon: Rocket, text: "Vos réponses types, vos thématiques de posts et vos messages d’invitation aux avis." },
     { title: "Pilote 7 jours", icon: CalendarDays, text: "On lance un test sur un échantillon (réponses + 1 post + 1 campagne d’avis)." },
-    { title: "Suivi des résultats", icon: BarChart3, text: "Tableau de bord : volume d’avis, note moyenne, vues de posts, temps économisé." },
+    { title: "Suivi des résultats", icon: BarChart3, text: "Tableau de bord : volume d’avis, note moyenne, vues de posts, temps économisé, nouveaux clients." },
   ];
 
   const faqs = [
     {
-      q: "Est‑ce conforme aux règles Google ?",
+      q: "Est-ce conforme aux règles Google ?",
       a: "Oui. Nous n’achetons pas d’avis et n’offrons pas de contreparties. Les messages sont de simples invitations, conformes aux guidelines.",
     },
     {
-      q: "Puis‑je valider les réponses avant publication ?",
-      a: "Oui. Vous pouvez activer la pré‑modération : vous validez les réponses et les posts avant qu’ils ne partent.",
+      q: "Puis-je valider les réponses avant publication ?",
+      a: "Oui. Vous pouvez activer la pré-modération : vous validez les réponses et les posts avant qu’ils ne partent.",
     },
     {
-      q: "Que se passe‑t‑il si j’arrête ?",
-      a: "Tout s’arrête immédiatement. Les accès Google peuvent être révoqués par vous à tout moment.",
+      q: "Que se passe-t-il si j’arrête ?",
+      a: "Tout s’arrête immédiatement, sans surcoût. Les accès Google peuvent être révoqués par vous à tout moment.",
     },
     {
       q: "Où sont hébergées les données ?",
-      a: "En Europe. Nous appliquons une politique de minimisation : nous ne conservons pas les données au‑delà du nécessaire opérationnel.",
+      a: "Dans nos serveurs, en Europe. Nous appliquons une politique de minimisation : nous ne conservons pas les données au-delà du nécessaire opérationnel.",
     },
   ];
+
+  // Témoignages : 3 éléments distincts et éditables individuellement
+  // Témoignages : 3 éléments distincts avec avatar emoji
+// Témoignages : 3 éléments distincts avec avatar emoji cohérent
+  const [testimonials] = useState([
+    {
+      id: "t-neuilly",
+      author: "Restaurant – Neuilly-sur-Seine",
+      role: "Gérant",
+      emoji: "👨‍🍳",
+      accent: "bg-sky-100 text-sky-800",
+      text:
+        "On répond désormais à tous les avis sans effort, et les posts hebdo maintiennent la fiche active. +18 avis en 2 semaines, note stable.",
+    },
+    {
+      id: "t-malakoff",
+      author: "Restaurant – Malakoff",
+      role: "Gérante",
+      emoji: "👩‍🍳",
+      accent: "bg-violet-100 text-violet-800",
+      text:
+        "Simple à mettre en place, pas d’engagement. On gagne du temps et on garde la main quand on veut pré-valider les messages.",
+    },
+    {
+      id: "t-mtp-garage",
+      author: "Garage automobile – Montpellier",
+      role: "Propriétaire",
+      emoji: "🧑‍🔧",
+      accent: "bg-emerald-100 text-emerald-800",
+      text:
+        "Les réponses automatiques + rappels d’avis ont relancé notre visibilité locale. Process propre et conforme aux règles Google.",
+    },
+  ]);
+
+
 
   return (
     <div className="min-h-screen bg-neutral-50 text-neutral-900">
@@ -317,67 +352,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ROI Calculator + Sécurité */}
-      <section id="roi" className="py-16 sm:py-24 scroll-mt-28">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl font-extrabold tracking-tight">Votre retour sur investissement</h2>
-            <p className="mt-3 text-neutral-700">Automatiser les avis et les posts libère du temps et améliore votre visibilité locale.</p>
-          </div>
-
-          <div className="mt-6 grid lg:grid-cols-2 gap-10 items-start">
-            {/* Carte ROI */}
-            <div className="rounded-2xl border border-neutral-200 bg-white/80 backdrop-blur-xl p-6 shadow-sm ring-1 ring-black/5">
-              <div className="grid sm:grid-cols-4 gap-6">
-                <div className="sm:col-span-2">
-                  <label className="text-sm font-medium" htmlFor="reviews">Avis par mois</label>
-                  <input id="reviews" type="range" min={5} max={200} value={reviewsPerMonth} onChange={(e) => setReviewsPerMonth(parseInt(e.target.value))} className="w-full" />
-                  <div className="mt-1 text-sm text-neutral-700">{reviewsPerMonth}</div>
-                </div>
-                <div>
-                  <label className="text-sm font-medium" htmlFor="minutes">Minutes / avis</label>
-                  <input id="minutes" type="number" value={minutesPerReview} onChange={(e) => setMinutesPerReview(Number(e.target.value) || 0)} className="w-full rounded-lg border border-neutral-300 px-3 py-2" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium" htmlFor="cost">Coût horaire (€)</label>
-                  <input id="cost" type="number" value={hourCost} onChange={(e) => setHourCost(Number(e.target.value) || 0)} className="w-full rounded-lg border border-neutral-300 px-3 py-2" />
-                </div>
-              </div>
-              <div className="mt-6 grid sm:grid-cols-3 gap-6 text-center">
-                <div className="rounded-xl bg-gradient-to-br from-neutral-50 to-white border border-neutral-200 p-4">
-                  <div className="text-xs text-neutral-600">Heures économisées / mois</div>
-                  <div className="text-2xl font-extrabold">{hoursPerMonth.toLocaleString("fr-FR")}</div>
-                </div>
-                <div className="rounded-xl bg-gradient-to-br from-neutral-50 to-white border border-neutral-200 p-4">
-                  <div className="text-xs text-neutral-600">Économie mensuelle</div>
-                  <div className="text-2xl font-extrabold">{monthlySaved.toLocaleString("fr-FR")} €</div>
-                </div>
-                <div className="rounded-xl bg-gradient-to-r from-sky-50 to-blue-50 border border-sky-200 p-4">
-                  <div className="text-xs text-sky-700">x l’abonnement (10€)</div>
-                  <div className="text-2xl font-extrabold text-sky-800">{Number.isFinite(roiPct) ? `${roiPct} %` : "—"}</div>
-                </div>
-              </div>
-              <p className="mt-4 text-xs text-neutral-600">
-                Référence : une réponse manuelle prend ~5–7 min en moyenne (lecture, rédaction, publication). Les posts hebdo et la sollicitation d’avis sont inclus.
-              </p>
-            </div>
-
-            {/* Carte "Sécurité & conformité" */}
-            <div className="rounded-2xl border border-neutral-200 bg-white/80 backdrop-blur-xl p-6 shadow-sm ring-1 ring-black/5">
-              <h3 className="text-lg font-bold">Sécurité & conformité</h3>
-              <ul className="mt-3 space-y-3 text-sm text-neutral-700">
-                <li className="flex gap-2"><span className="mt-1"><ShieldCheck className="size-4 text-sky-700" /></span><span><strong>Accès minimaux</strong> à votre Google Business Profile. Révocable à tout moment.</span></li>
-                <li className="flex gap-2"><span className="mt-1"><Lock className="size-4 text-sky-700" /></span><span><strong>Pas de rétention inutile</strong> : on traite puis on supprime. Journalisation des actions.</span></li>
-                <li className="flex gap-2"><span className="mt-1"><MessageSquare className="size-4 text-sky-700" /></span><span><strong>Sollicitations d’avis conformes</strong> : pas de faux avis ni d’incitations trompeuses, uniquement un lien et un message de courtoisie.</span></li>
-              </ul>
-              <a href="#contact" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-neutral-900 text-white px-4 py-2 text-sm font-semibold hover:bg-neutral-800">
-                Parler de votre fiche Google <ArrowRight className="size-4" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      {/* Témoignages (preuves sociales) */}
       {/* Témoignages (preuves sociales) */}
       <section className="py-16 sm:py-24 bg-white border-y border-neutral-200">
         <div className="mx-auto max-w-7xl px-6">
@@ -386,18 +361,34 @@ export default function LandingPage() {
             <p className="mt-3 text-neutral-700">Exemples anonymisés issus de restaurants et garages clients.</p>
           </div>
 
-          <div className="mt-8 grid md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <figure key={i} className="rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
-                <blockquote className="text-sm text-neutral-800 leading-relaxed">
-                  “On reçoit plus d'avis et ça attire un nouveau type de client, ”
-                </blockquote>
-                <figcaption className="mt-4 text-xs text-neutral-600">Restaurant – Neuilly-sur-Seine (600 avis)</figcaption>
+          <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {testimonials.map((t) => (
+              <figure
+                key={t.id}
+                className="h-full rounded-2xl border border-neutral-200 bg-neutral-50 p-5"
+              >
+                <div className="flex items-start gap-3">
+                  <div
+                    className={`h-10 w-10 shrink-0 rounded-full grid place-items-center text-lg ${t.accent}`}
+                    aria-hidden="true"
+                  >
+                    {t.emoji}
+                  </div>
+                  <div className="min-w-0">
+                    <blockquote className="text-[15px] text-neutral-800 leading-relaxed">
+                      “{t.text}”
+                    </blockquote>
+                    <figcaption className="mt-2 text-xs text-neutral-600 truncate">
+                      {t.author}{t.role ? ` — ${t.role}` : ""}
+                    </figcaption>
+                  </div>
+                </div>
               </figure>
             ))}
           </div>
         </div>
       </section>
+
 
       {/* Tarifs */}
       <section id="tarifs" className="py-16 sm:py-24 bg-neutral-50 border-y border-neutral-200 scroll-mt-28">
@@ -419,7 +410,7 @@ export default function LandingPage() {
               label="Standard"
               price="20€ / mois"
               description="Réponse aux avis + 1 post/semaine."
-              features={["Calendrier éditorial inclus", "Pré‑modération possible"]}
+              features={["Calendrier éditorial inclus", "Pré-modération possible"]}
               cta="Choisir"
             />
             <PricingCard
@@ -438,7 +429,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-2xl">
             <h2 className="text-3xl font-extrabold tracking-tight">Questions fréquentes</h2>
-            <p className="mt-3 text-neutral-700">Si vous avez d’autres questions, contactez‑nous — on répond vite.</p>
+            <p className="mt-3 text-neutral-700">Si vous avez d’autres questions, contactez-nous : on répond vite.</p>
           </div>
 
           <div className="mt-8 max-w-3xl space-y-3">
@@ -508,6 +499,67 @@ export default function LandingPage() {
                 <p className="flex items-center gap-2"><Phone className="size-4" /> <a href="tel:+33771794665" className="hover:underline">07 71 79 46 65</a></p>
                 <p className="flex items-center gap-2"><Mail className="size-4" /> <a href="mailto:contact@dynam8.fr" className="hover:underline">contact@dynam8.fr</a></p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ROI déplacé en bas pour usage rendez-vous */}
+      <section id="roi" className="py-16 sm:py-24 scroll-mt-28">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="max-w-2xl">
+            <h2 className="text-3xl font-extrabold tracking-tight">Votre retour sur investissement</h2>
+            <p className="mt-3 text-neutral-700">Automatiser les avis et les posts libère du temps et améliore votre visibilité locale.</p>
+          </div>
+
+          <div className="mt-6 grid lg:grid-cols-2 gap-10 items-start">
+            {/* Carte ROI */}
+            <div className="rounded-2xl border border-neutral-200 bg-white/80 backdrop-blur-xl p-6 shadow-sm ring-1 ring-black/5">
+              <div className="grid sm:grid-cols-4 gap-6">
+                <div className="sm:col-span-2">
+                  <label className="text-sm font-medium" htmlFor="reviews">Avis par mois</label>
+                  <input id="reviews" type="range" min={5} max={200} value={reviewsPerMonth} onChange={(e) => setReviewsPerMonth(parseInt(e.target.value))} className="w-full" />
+                  <div className="mt-1 text-sm text-neutral-700">{reviewsPerMonth}</div>
+                </div>
+                <div>
+                  <label className="text-sm font-medium" htmlFor="minutes">Minutes / avis</label>
+                  <input id="minutes" type="number" value={minutesPerReview} onChange={(e) => setMinutesPerReview(Number(e.target.value) || 0)} className="w-full rounded-lg border border-neutral-300 px-3 py-2" />
+                </div>
+                <div>
+                  <label className="text-sm font-medium" htmlFor="cost">Coût horaire (€)</label>
+                  <input id="cost" type="number" value={hourCost} onChange={(e) => setHourCost(Number(e.target.value) || 0)} className="w-full rounded-lg border border-neutral-300 px-3 py-2" />
+                </div>
+              </div>
+              <div className="mt-6 grid sm:grid-cols-3 gap-6 text-center">
+                <div className="rounded-xl bg-gradient-to-br from-neutral-50 to-white border border-neutral-200 p-4">
+                  <div className="text-xs text-neutral-600">Heures économisées / mois</div>
+                  <div className="text-2xl font-extrabold">{hoursPerMonth.toLocaleString("fr-FR")}</div>
+                </div>
+                <div className="rounded-xl bg-gradient-to-br from-neutral-50 to-white border border-neutral-200 p-4">
+                  <div className="text-xs text-neutral-600">Économie mensuelle</div>
+                  <div className="text-2xl font-extrabold">{monthlySaved.toLocaleString("fr-FR")} €</div>
+                </div>
+                <div className="rounded-xl bg-gradient-to-r from-sky-50 to-blue-50 border border-sky-200 p-4">
+                  <div className="text-xs text-sky-700">x l’abonnement (10€)</div>
+                  <div className="text-2xl font-extrabold text-sky-800">{Number.isFinite(roiPct) ? `${roiPct} %` : "—"}</div>
+                </div>
+              </div>
+              <p className="mt-4 text-xs text-neutral-600">
+                Référence : une réponse manuelle prend ~5–7 min en moyenne (lecture, rédaction, publication). Les posts hebdo et la sollicitation d’avis sont inclus.
+              </p>
+            </div>
+
+            {/* Carte "Sécurité & conformité" */}
+            <div className="rounded-2xl border border-neutral-200 bg-white/80 backdrop-blur-xl p-6 shadow-sm ring-1 ring-black/5">
+              <h3 className="text-lg font-bold">Sécurité & conformité</h3>
+              <ul className="mt-3 space-y-3 text-sm text-neutral-700">
+                <li className="flex gap-2"><span className="mt-1"><ShieldCheck className="size-4 text-sky-700" /></span><span><strong>Accès minimaux</strong> à votre Google Business Profile. Révocable à tout moment.</span></li>
+                <li className="flex gap-2"><span className="mt-1"><Lock className="size-4 text-sky-700" /></span><span><strong>Pas de rétention inutile</strong> : on traite puis on supprime. Journalisation des actions.</span></li>
+                <li className="flex gap-2"><span className="mt-1"><MessageSquare className="size-4 text-sky-700" /></span><span><strong>Sollicitations d’avis conformes</strong> : pas de faux avis ni d’incitations trompeuses, uniquement un lien et un message de courtoisie.</span></li>
+              </ul>
+              <a href="#contact" className="mt-6 inline-flex items-center gap-2 rounded-xl bg-neutral-900 text-white px-4 py-2 text-sm font-semibold hover:bg-neutral-800">
+                Parler de votre fiche Google <ArrowRight className="size-4" />
+              </a>
             </div>
           </div>
         </div>
