@@ -4,21 +4,13 @@ import React, { useMemo, useState, useEffect } from "react";
 import {
   CheckCircle2,
   Zap,
-  ShieldCheck,
-  Rocket,
-  Lock,
   ArrowRight,
   Calculator,
   Mail,
   Phone,
   MessageSquare,
-  CalendarDays,
   Star,
   Image as ImageIcon,
-  BarChart3,
-  Users,
-  Clock,
-  Play,
   ChevronDown,
   Menu,
   X
@@ -27,13 +19,14 @@ import {
 // --------------------------------------------------------------------------------------
 // Logo Dynam8 (Version Image PNG)
 // --------------------------------------------------------------------------------------
-// IMPORTANT : Assurez-vous d'avoir votre fichier 'logo.png' (rogné) dans le dossier 'public' à la racine de votre projet.
 function Logo({ className = "h-auto w-auto" }: { className?: string }) {
+  // Note pour le déploiement : Next.js préfère le composant <Image /> pour les performances.
+  // Pour l'instant, on garde <img> pour que ça marche vite, mais l'avertissement dans les logs est normal.
   return (
     <img
-      src="/logo.png" 
+      src="/logo.png"
       alt="Logo Dynam8"
-      className={className} 
+      className={className}
     />
   );
 }
@@ -46,19 +39,16 @@ export default function LandingPage() {
   const [reviewsPerMonth, setReviewsPerMonth] = useState(30);
   const [minutesPerReview, setMinutesPerReview] = useState(6);
   const [hourCost, setHourCost] = useState(25);
-  const monthlyFee = 20; // Basé sur le plan standard pour le calcul (plus réaliste)
+  const monthlyFee = 20;
 
   const hoursPerMonth = useMemo(() => (reviewsPerMonth * minutesPerReview) / 60, [reviewsPerMonth, minutesPerReview]);
   const monthlySaved = useMemo(() => Math.round(hoursPerMonth * hourCost), [hoursPerMonth, hourCost]);
   const annualSaved = useMemo(() => monthlySaved * 12, [monthlySaved]);
   
-  // Calcul du nombre d'avis nécessaires pour rembourser l'abonnement (Break-even point)
+  // Calcul du Break-even point
   const reviewsToBreakEven = useMemo(() => {
-    // Coût d'un seul avis fait à la main = (minutes / 60) * coût horaire
     const costPerSingleReview = (minutesPerReview / 60) * hourCost;
-    // Sécurité anti-division par zéro
     if (costPerSingleReview <= 0) return 0;
-    // Combien d'avis pour couvrir les 20€ ? On arrondit au supérieur.
     return Math.ceil(monthlyFee / costPerSingleReview);
   }, [minutesPerReview, hourCost, monthlyFee]);
 
@@ -76,13 +66,10 @@ export default function LandingPage() {
     const form = e.currentTarget;
     const formData = new FormData(form);
     
-    // Récupération des données du formulaire simplifié
     const payload = {
       name: String(formData.get("name") || ""),
-      // Dans ce design simplifié, on utilise le champ "contact" pour le nom de la personne
       contact: String(formData.get("contact") || ""), 
       phone: String(formData.get("phone") || ""),
-      // Valeurs par défaut pour les champs requis par l'API mais absents du formulaire court
       email: "non-fourni@contact-rapide.com", 
       message: "Demande de rappel depuis le formulaire simplifié (Vente Terrain)",
     };
@@ -96,7 +83,8 @@ export default function LandingPage() {
       const data = await r.json().catch(() => ({}));
       if (!r.ok || !data?.ok) {
         setSent("error");
-        setErrorMsg(data?.error || "Impossible d’envoyer le message.");
+        // Utilisation de &rsquo; pour l'apostrophe
+        setErrorMsg(data?.error || "Impossible d&rsquo;envoyer le message.");
       } else {
         setSent("ok");
         form.reset();
@@ -109,33 +97,30 @@ export default function LandingPage() {
     }
   }
 
-  // --- Scroll Spy pour navigation active (Optionnel mais sympa) ---
-  const [activeSection, setActiveSection] = useState("");
-
-  // --- Liste des FAQ (Définie ici, dans la "cuisine") ---
+  // --- Liste des FAQ (avec apostrophes corrigées) ---
   const faqs = [
     {
       q: "Est-ce que c'est autorisé par Google ?",
-      a: "Oui, à 100%. Nous utilisons les outils officiels de Google Business Profile. Nous ne faisons pas d'achat de faux avis ni d'incitations interdites. Notre système aide juste vos vrais clients à s'exprimer plus facilement."
+      // Remplacement de ' par &rsquo;
+      a: "Oui, à 100%. Nous utilisons les outils officiels de Google Business Profile. Nous ne faisons pas d&rsquo;achat de faux avis ni d&rsquo;incitations interdites. Notre système aide juste vos vrais clients à s&rsquo;exprimer plus facilement."
     },
     {
       q: "Et si une réponse automatique ne me plaît pas ?",
-      a: "Vous gardez le contrôle total. Vous pouvez modifier ou supprimer n'importe quelle réponse en un clic depuis votre interface Google. Pour les avis sensibles (1 ou 2 étoiles), nous pouvons activer une option de validation manuelle avant publication."
+      a: "Vous gardez le contrôle total. Vous pouvez modifier ou supprimer n&rsquo;importe quelle réponse en un clic depuis votre interface Google. Pour les avis sensibles (1 ou 2 étoiles), nous pouvons activer une option de validation manuelle avant publication."
     },
     {
       q: "Est-ce que je suis engagé sur la durée ?",
-      a: "Non. Notre offre est sans engagement de durée. Vous pouvez arrêter d'un mois sur l'autre si vous n'êtes pas satisfait des résultats. Nous misons sur la qualité de notre service pour vous garder, pas sur un contrat."
+      a: "Non. Notre offre est sans engagement de durée. Vous pouvez arrêter d&rsquo;un mois sur l&rsquo;autre si vous n&rsquo;êtes pas satisfait des résultats. Nous misons sur la qualité de notre service pour vous garder, pas sur un contrat."
     },
     {
       q: "Ça marche vraiment pour les restaurants ?",
-      a: "C'est notre spécialité. Nos modèles de réponses et nos posts sont conçus spécifiquement pour la restauration (ton chaleureux, mise en avant de la cuisine, du service et de l'ambiance)."
+      a: "C&rsquo;est notre spécialité. Nos modèles de réponses et nos posts sont conçus spécifiquement pour la restauration (ton chaleureux, mise en avant de la cuisine, du service et de l&rsquo;ambiance)."
     }
   ];
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-slate-900 font-sans selection:bg-sky-100 selection:text-sky-900">
       
-      {/* Background Gradients - Plus subtils */}
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-sky-100/40 via-transparent to-transparent blur-3xl" />
         <div className="absolute bottom-0 right-0 w-[800px] h-[600px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-violet-100/30 via-transparent to-transparent blur-3xl" />
@@ -179,7 +164,6 @@ export default function LandingPage() {
               </a>
             </div>
 
-            {/* Trust signals */}
             <div className="mt-12 flex items-center justify-center gap-6 sm:gap-10 text-sm font-medium text-slate-500">
               <div className="flex items-center gap-2">
                 <div className="bg-green-100 p-1 rounded-full"><CheckCircle2 className="size-3.5 text-green-600" /></div>
@@ -223,7 +207,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ROI CALCULATOR - THE SELLING TOOL */}
+        {/* ROI CALCULATOR */}
         <section id="roi" className="py-24 bg-slate-50 scroll-mt-20 relative overflow-hidden">
           <div className="mx-auto max-w-7xl px-6 relative z-10">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -297,13 +281,13 @@ export default function LandingPage() {
                       <span className="font-bold text-green-600">~20 €</span>
                     </div>
                     
-                    {/* BLOC ROI DYNAMIQUE CORRIGÉ */}
+                    {/* BLOC ROI DYNAMIQUE AVEC APOSTROPHE CORRIGÉE */}
                     <div className="bg-green-50 rounded-xl p-4 border border-green-100 transition-all duration-300">
                       <p className="text-green-800 font-medium text-sm leading-relaxed">
                         <span className="flex items-center gap-2 font-bold mb-1">
                           🚀 Retour sur investissement rapide
                         </span>
-                        Avec vos paramètres actuels, vous rentabilisez l'abonnement dès le{' '}
+                        Avec vos paramètres actuels, vous rentabilisez l&rsquo;abonnement dès le{' '}
                         <strong className="text-lg bg-green-200 px-1 rounded text-green-900">
                           {reviewsToBreakEven > 0 ? `${reviewsToBreakEven}ème avis` : "..."}
                         </strong>{' '}
@@ -312,7 +296,7 @@ export default function LandingPage() {
                     </div>
                     
                     <a href="#contact" className="block w-full rounded-xl bg-sky-600 text-white py-3 font-bold hover:bg-sky-700 transition">
-                      Démarrer l'économie
+                      Démarrer l&rsquo;économie
                     </a>
                   </div>
                 </div>
@@ -322,7 +306,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* TÉMOIGNAGES - SOCIAL PROOF - VERSION CORRIGÉE */}
+        {/* TÉMOIGNAGES - AVEC APOSTROPHES CORRIGÉES */}
         <section className="py-24 bg-slate-50 border-t border-slate-200 scroll-mt-20">
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center max-w-2xl mx-auto mb-12">
@@ -333,13 +317,13 @@ export default function LandingPage() {
             </div>
 
             <div className="grid md:grid-cols-3 gap-6 items-start">
-              {/* Carte 1 : Restaurant Neuilly (Le client "Découverte/Levier") */}
+              {/* Carte 1 */}
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
                 <div className="flex items-center gap-1 mb-4 text-amber-400">
                   <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
                 </div>
                 <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
-                  “Je négligeais Google par manque de temps. C'est devenu <span className="bg-sky-50 text-sky-700 px-1 rounded font-bold">un vrai levier d'acquisition</span> et de fidélisation. Ma fiche tourne seule et m'amène des clients.”
+                  “Je négligeais Google par manque de temps. C&rsquo;est devenu <span className="bg-sky-50 text-sky-700 px-1 rounded font-bold">un vrai levier d&rsquo;acquisition</span> et de fidélisation. Ma fiche tourne seule et m&rsquo;amène des clients.”
                 </blockquote>
                 <div className="mt-6 flex items-center gap-3 pt-6 border-t border-slate-50 w-full">
                   <div className="size-10 rounded-full bg-sky-100 flex items-center justify-center text-xl">👨‍🍳</div>
@@ -350,7 +334,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Carte 2 : Brasserie Malakoff (Le client "Tranquillité d'esprit") */}
+              {/* Carte 2 */}
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
                 <div className="flex items-center gap-1 mb-4 text-amber-400">
                   <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
@@ -367,13 +351,13 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Carte 3 : Garage Montpellier (Le client "Avis négatifs/WhatsApp") */}
+              {/* Carte 3 */}
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
                 <div className="flex items-center gap-1 mb-4 text-amber-400">
                   <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
                 </div>
                 <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
-                  “La gestion des avis négatifs est bien plus simple. <span className="bg-emerald-50 text-emerald-700 px-1 rounded font-bold">L'alerte WhatsApp immédiate</span> en cas de mauvaise note me permet de désamorcer les problèmes rapidement.”
+                  “La gestion des avis négatifs est bien plus simple. <span className="bg-emerald-50 text-emerald-700 px-1 rounded font-bold">L&rsquo;alerte WhatsApp immédiate</span> en cas de mauvaise note me permet de désamorcer les problèmes rapidement.”
                 </blockquote>
                 <div className="mt-6 flex items-center gap-3 pt-6 border-t border-slate-50 w-full">
                   <div className="size-10 rounded-full bg-emerald-100 flex items-center justify-center text-xl">🔧</div>
@@ -392,7 +376,7 @@ export default function LandingPage() {
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center max-w-2xl mx-auto mb-16">
               <h2 className="text-3xl font-bold mb-4">Tarifs simples et transparents</h2>
-              <p className="text-slate-600">Pas de frais d'installation cachés. Tout est inclus.</p>
+              <p className="text-slate-600">Pas de frais d&rsquo;installation cachés. Tout est inclus.</p>
             </div>
             
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -416,7 +400,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* SECTION FAQ (AJOUTÉE ICI, DISCRÈTE EN BAS DE PAGE) */}
+        {/* SECTION FAQ */}
         <section id="faq" className="py-24 bg-white scroll-mt-20 border-t border-slate-200">
           <div className="mx-auto max-w-3xl px-6">
             <div className="text-center mb-12">
@@ -499,7 +483,7 @@ export default function LandingPage() {
 
       </main>
 
-      {/* Mobile Sticky Action Bar (Sales Mode) */}
+      {/* Mobile Sticky Action Bar */}
       <div className="fixed bottom-4 left-4 right-4 z-50 sm:hidden">
         <div className="bg-slate-900/90 backdrop-blur-md text-white rounded-2xl shadow-2xl flex items-center p-1.5 border border-slate-800">
           <a href="#roi" className="flex-1 flex flex-col items-center justify-center py-2 rounded-xl active:bg-white/10">
@@ -538,7 +522,6 @@ function SiteHeader() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"}`}>
       <div className="mx-auto max-w-7xl px-6 flex items-center justify-between">
-        {/* LOGO IMAGE ET TAILLE AJUSTÉE */}
         <div className="flex items-center">
           <Logo className="h-14 w-auto" /> 
         </div>
@@ -560,7 +543,6 @@ function SiteHeader() {
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
       {mobileOpen && (
         <div className="absolute top-full left-0 right-0 bg-white border-b border-slate-100 p-4 shadow-xl flex flex-col gap-4 text-lg font-medium md:hidden animate-in slide-in-from-top-5">
           <a href="#solutions" onClick={() => setMobileOpen(false)} className="p-2 text-slate-600">Solutions</a>
@@ -573,7 +555,8 @@ function SiteHeader() {
   );
 }
 
-function FeatureCard({ icon: Icon, title, desc, theme }: { icon: any, title: string, desc: string, theme: "sky" | "violet" | "emerald" }) {
+// Correction du type 'any' ici : on utilise React.ElementType
+function FeatureCard({ icon: Icon, title, desc, theme }: { icon: React.ElementType, title: string, desc: string, theme: "sky" | "violet" | "emerald" }) {
   const colors = {
     sky: "bg-sky-50 text-sky-700 border-sky-100 group-hover:border-sky-300",
     violet: "bg-violet-50 text-violet-700 border-violet-100 group-hover:border-violet-300",
