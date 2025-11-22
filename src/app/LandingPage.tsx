@@ -303,7 +303,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* TÉMOIGNAGES - AVEC GUILLEMETS CORRIGÉS */}
+        {/* TÉMOIGNAGES - SECTION CORRIGÉE */}
         <section className="py-24 bg-slate-50 border-t border-slate-200 scroll-mt-20">
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center max-w-2xl mx-auto mb-12">
@@ -319,7 +319,6 @@ export default function LandingPage() {
                 <div className="flex items-center gap-1 mb-4 text-amber-400">
                   <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
                 </div>
-                {/* Utilisation de &ldquo; et &rdquo; pour les guillemets */}
                 <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
                   &ldquo;Je négligeais Google par manque de temps. C&rsquo;est devenu <span className="bg-sky-50 text-sky-700 px-1 rounded font-bold">un vrai levier d&rsquo;acquisition</span> et de fidélisation. Ma fiche tourne seule et m&rsquo;amène des clients.&rdquo;
                 </blockquote>
