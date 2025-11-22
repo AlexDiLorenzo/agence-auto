@@ -25,21 +25,18 @@ import {
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------------
-// Logo Dynam8
+// Logo Dynam8 (Version Image PNG)
 // --------------------------------------------------------------------------------------
-// --- NOUVEAU CODE (À COLLER AU MÊME ENDROIT) ---
-
-// On utilise une balise image standard qui pointe vers le dossier public
+// IMPORTANT : Assurez-vous d'avoir votre fichier 'logo.png' (rogné) dans le dossier 'public' à la racine de votre projet.
 function Logo({ className = "h-auto w-auto" }: { className?: string }) {
   return (
     <img
-      src="/logo.png" // Assurez-vous que le nom est exact ici
+      src="/logo.png" 
       alt="Logo Dynam8"
-      className={className} // Cela permet de contrôler la taille via Tailwind
+      className={className} 
     />
   );
 }
-// --------------------------------
 
 // --------------------------------------------------------------------------------------
 // Page Principale
@@ -55,29 +52,19 @@ export default function LandingPage() {
   const monthlySaved = useMemo(() => Math.round(hoursPerMonth * hourCost), [hoursPerMonth, hourCost]);
   const annualSaved = useMemo(() => monthlySaved * 12, [monthlySaved]);
   
-
-  // --- AJOUTER CE BLOC APRÈS LES AUTRES USEMEMO ---
-
-  // Calcul du nombre d'avis nécessaires pour rembourser l'abonnement
+  // Calcul du nombre d'avis nécessaires pour rembourser l'abonnement (Break-even point)
   const reviewsToBreakEven = useMemo(() => {
     // Coût d'un seul avis fait à la main = (minutes / 60) * coût horaire
     const costPerSingleReview = (minutesPerReview / 60) * hourCost;
-
     // Sécurité anti-division par zéro
     if (costPerSingleReview <= 0) return 0;
-
     // Combien d'avis pour couvrir les 20€ ? On arrondit au supérieur.
     return Math.ceil(monthlyFee / costPerSingleReview);
   }, [minutesPerReview, hourCost, monthlyFee]);
 
-// -----------------------------------------------
   // --- Contact Form ---
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState<null | "ok" | "error">(null);
-
-  // --- LE NOUVEAU CODE (VOTRE VRAIE LOGIQUE RESTAURÉE) ---
-
-  // Ajoutez cette ligne d'état qui manquait dans ma version :
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -89,17 +76,15 @@ export default function LandingPage() {
     const form = e.currentTarget;
     const formData = new FormData(form);
     
-    // Récupération des données comme dans votre code original
+    // Récupération des données du formulaire simplifié
     const payload = {
       name: String(formData.get("name") || ""),
-      // Note: dans le nouveau design j'avais séparé nom/prenom,
-      // si vous utilisez le champ unique "contact" du nouveau design, ajustez ici :
-      // contact: String(formData.get("contact") || ""), 
-      email: String(formData.get("email") || "non-fourni@example.com"), // J'ai pas mis de champ email dans le nouveau design contact rapide, attention !
+      // Dans ce design simplifié, on utilise le champ "contact" pour le nom de la personne
+      contact: String(formData.get("contact") || ""), 
       phone: String(formData.get("phone") || ""),
-      // J'ai retiré le champ message long et website du nouveau design pour faire plus court.
-      // Si votre API en a besoin absolument, il faut remettre les champs dans le JSX.
-       message: "Contact depuis le formulaire simplifié", // Message par défaut
+      // Valeurs par défaut pour les champs requis par l'API mais absents du formulaire court
+      email: "non-fourni@contact-rapide.com", 
+      message: "Demande de rappel depuis le formulaire simplifié (Vente Terrain)",
     };
 
     try {
@@ -126,6 +111,26 @@ export default function LandingPage() {
 
   // --- Scroll Spy pour navigation active (Optionnel mais sympa) ---
   const [activeSection, setActiveSection] = useState("");
+
+  // --- Liste des FAQ (Définie ici, dans la "cuisine") ---
+  const faqs = [
+    {
+      q: "Est-ce que c'est autorisé par Google ?",
+      a: "Oui, à 100%. Nous utilisons les outils officiels de Google Business Profile. Nous ne faisons pas d'achat de faux avis ni d'incitations interdites. Notre système aide juste vos vrais clients à s'exprimer plus facilement."
+    },
+    {
+      q: "Et si une réponse automatique ne me plaît pas ?",
+      a: "Vous gardez le contrôle total. Vous pouvez modifier ou supprimer n'importe quelle réponse en un clic depuis votre interface Google. Pour les avis sensibles (1 ou 2 étoiles), nous pouvons activer une option de validation manuelle avant publication."
+    },
+    {
+      q: "Est-ce que je suis engagé sur la durée ?",
+      a: "Non. Notre offre est sans engagement de durée. Vous pouvez arrêter d'un mois sur l'autre si vous n'êtes pas satisfait des résultats. Nous misons sur la qualité de notre service pour vous garder, pas sur un contrat."
+    },
+    {
+      q: "Ça marche vraiment pour les restaurants ?",
+      a: "C'est notre spécialité. Nos modèles de réponses et nos posts sont conçus spécifiquement pour la restauration (ton chaleureux, mise en avant de la cuisine, du service et de l'ambiance)."
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-slate-900 font-sans selection:bg-sky-100 selection:text-sky-900">
@@ -292,7 +297,7 @@ export default function LandingPage() {
                       <span className="font-bold text-green-600">~20 €</span>
                     </div>
                     
-
+                    {/* BLOC ROI DYNAMIQUE CORRIGÉ */}
                     <div className="bg-green-50 rounded-xl p-4 border border-green-100 transition-all duration-300">
                       <p className="text-green-800 font-medium text-sm leading-relaxed">
                         <span className="flex items-center gap-2 font-bold mb-1">
@@ -317,70 +322,70 @@ export default function LandingPage() {
           </div>
         </section>
 
-                  {/* TÉMOIGNAGES - SOCIAL PROOF - VERSION CORRIGÉE */}
-          <section className="py-24 bg-slate-50 border-t border-slate-200 scroll-mt-20">
-            <div className="mx-auto max-w-7xl px-6">
-              <div className="text-center max-w-2xl mx-auto mb-12">
-                <h2 className="text-3xl font-bold text-slate-900 mb-4">Ils nous ont confié leurs clés</h2>
-                <p className="text-slate-600">
-                  Restaurateurs et commerçants. Ils ont arrêté de gérer ça le dimanche soir.
-                </p>
+        {/* TÉMOIGNAGES - SOCIAL PROOF - VERSION CORRIGÉE */}
+        <section className="py-24 bg-slate-50 border-t border-slate-200 scroll-mt-20">
+          <div className="mx-auto max-w-7xl px-6">
+            <div className="text-center max-w-2xl mx-auto mb-12">
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">Ils nous ont confié leurs clés</h2>
+              <p className="text-slate-600">
+                Restaurateurs et commerçants. Ils ont arrêté de gérer ça le dimanche soir.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 items-start">
+              {/* Carte 1 : Restaurant Neuilly (Le client "Découverte/Levier") */}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
+                <div className="flex items-center gap-1 mb-4 text-amber-400">
+                  <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
+                </div>
+                <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
+                  “Je négligeais Google par manque de temps. C'est devenu <span className="bg-sky-50 text-sky-700 px-1 rounded font-bold">un vrai levier d'acquisition</span> et de fidélisation. Ma fiche tourne seule et m'amène des clients.”
+                </blockquote>
+                <div className="mt-6 flex items-center gap-3 pt-6 border-t border-slate-50 w-full">
+                  <div className="size-10 rounded-full bg-sky-100 flex items-center justify-center text-xl">👨‍🍳</div>
+                  <div>
+                    <div className="font-bold text-slate-900">Gérant</div>
+                    <div className="text-xs text-slate-500">Restaurant – Neuilly-sur-Seine</div>
+                  </div>
+                </div>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-6 items-start">
-                {/* Carte 1 : Restaurant Neuilly (Le client "Découverte/Levier") */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
-                  <div className="flex items-center gap-1 mb-4 text-amber-400">
-                    <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
-                  </div>
-                  <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
-                    “Je négligeais Google par manque de temps. C'est devenu <span className="bg-sky-50 text-sky-700 px-1 rounded font-bold">un vrai levier d'acquisition</span> et de fidélisation. Ma fiche tourne seule et m'amène des clients.”
-                  </blockquote>
-                  <div className="mt-6 flex items-center gap-3 pt-6 border-t border-slate-50 w-full">
-                    <div className="size-10 rounded-full bg-sky-100 flex items-center justify-center text-xl">👨‍🍳</div>
-                    <div>
-                      <div className="font-bold text-slate-900">Gérant</div>
-                      <div className="text-xs text-slate-500">Restaurant – Neuilly-sur-Seine</div>
-                    </div>
+              {/* Carte 2 : Brasserie Malakoff (Le client "Tranquillité d'esprit") */}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
+                <div className="flex items-center gap-1 mb-4 text-amber-400">
+                  <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
+                </div>
+                <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
+                  “Ça me rassure énormément. Je ne me prends plus la tête : <span className="bg-violet-50 text-violet-700 px-1 rounded font-bold">ma page tourne toute seule</span>. Je gagne du temps et de la visibilité sans stress.”
+                </blockquote>
+                <div className="mt-6 flex items-center gap-3 pt-6 border-t border-slate-50 w-full">
+                  <div className="size-10 rounded-full bg-violet-100 flex items-center justify-center text-xl">👩‍🍳</div>
+                  <div>
+                    <div className="font-bold text-slate-900">Gérante</div>
+                    <div className="text-xs text-slate-500">Brasserie – Malakoff</div>
                   </div>
                 </div>
+              </div>
 
-                {/* Carte 2 : Brasserie Malakoff (Le client "Tranquillité d'esprit") */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
-                  <div className="flex items-center gap-1 mb-4 text-amber-400">
-                    <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
-                  </div>
-                  <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
-                    “Ça me rassure énormément. Je ne me prends plus la tête : <span className="bg-violet-50 text-violet-700 px-1 rounded font-bold">ma page tourne toute seule</span>. Je gagne du temps et de la visibilité sans stress.”
-                  </blockquote>
-                  <div className="mt-6 flex items-center gap-3 pt-6 border-t border-slate-50 w-full">
-                    <div className="size-10 rounded-full bg-violet-100 flex items-center justify-center text-xl">👩‍🍳</div>
-                    <div>
-                      <div className="font-bold text-slate-900">Gérante</div>
-                      <div className="text-xs text-slate-500">Brasserie – Malakoff</div>
-                    </div>
-                  </div>
+              {/* Carte 3 : Garage Montpellier (Le client "Avis négatifs/WhatsApp") */}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
+                <div className="flex items-center gap-1 mb-4 text-amber-400">
+                  <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
                 </div>
-
-                {/* Carte 3 : Garage Montpellier (Le client "Avis négatifs/WhatsApp") */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col h-full">
-                  <div className="flex items-center gap-1 mb-4 text-amber-400">
-                    <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
-                  </div>
-                  <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
-                    “La gestion des avis négatifs est bien plus simple. <span className="bg-emerald-50 text-emerald-700 px-1 rounded font-bold">L'alerte WhatsApp immédiate</span> en cas de mauvaise note me permet de désamorcer les problèmes rapidement.”
-                  </blockquote>
-                  <div className="mt-6 flex items-center gap-3 pt-6 border-t border-slate-50 w-full">
-                    <div className="size-10 rounded-full bg-emerald-100 flex items-center justify-center text-xl">🔧</div>
-                    <div>
-                      <div className="font-bold text-slate-900">Propriétaire</div>
-                      <div className="text-xs text-slate-500">Garage – Montpellier</div>
-                    </div>
+                <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
+                  “La gestion des avis négatifs est bien plus simple. <span className="bg-emerald-50 text-emerald-700 px-1 rounded font-bold">L'alerte WhatsApp immédiate</span> en cas de mauvaise note me permet de désamorcer les problèmes rapidement.”
+                </blockquote>
+                <div className="mt-6 flex items-center gap-3 pt-6 border-t border-slate-50 w-full">
+                  <div className="size-10 rounded-full bg-emerald-100 flex items-center justify-center text-xl">🔧</div>
+                  <div>
+                    <div className="font-bold text-slate-900">Propriétaire</div>
+                    <div className="text-xs text-slate-500">Garage – Montpellier</div>
                   </div>
                 </div>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
         {/* PRICING */}
         <section id="tarifs" className="py-24 bg-white scroll-mt-20">
@@ -407,6 +412,32 @@ export default function LandingPage() {
                 price="30" 
                 features={["Tout du pack Standard", "Campagnes SMS/Email avis", "Rapport de performance", "Conseiller dédié"]}
               />
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION FAQ (AJOUTÉE ICI, DISCRÈTE EN BAS DE PAGE) */}
+        <section id="faq" className="py-24 bg-white scroll-mt-20 border-t border-slate-200">
+          <div className="mx-auto max-w-3xl px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-slate-900">Questions fréquentes</h2>
+              <p className="text-slate-600 mt-4">
+                Les réponses aux doutes légitimes que vous pourriez avoir.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {faqs.map((f, i) => (
+                <details key={i} className="group bg-slate-50 border border-slate-200 rounded-xl p-4 [&_summary::-webkit-details-marker]:hidden open:bg-white open:shadow-sm transition-all">
+                  <summary className="flex cursor-pointer items-center justify-between gap-4 font-semibold text-slate-900 select-none">
+                    {f.q}
+                    <ChevronDown className="size-5 text-slate-500 transition-transform duration-300 group-open:rotate-180 shrink-0" />
+                  </summary>
+                  <p className="mt-4 text-slate-600 leading-relaxed animate-in slide-in-from-top-2">
+                    {f.a}
+                  </p>
+                </details>
+              ))}
             </div>
           </div>
         </section>
@@ -445,7 +476,14 @@ export default function LandingPage() {
                       <input required type="tel" name="phone" className="w-full rounded-lg border-slate-300 focus:ring-sky-500 focus:border-sky-500" placeholder="06..." />
                     </div>
                   </div>
-                  <button disabled={sending} type="submit" className="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2 mt-4">
+                  
+                  {errorMsg && (
+                    <p className="text-sm text-red-600 bg-red-50 p-2 rounded-lg border border-red-100">
+                      {errorMsg}
+                    </p>
+                  )}
+
+                  <button disabled={sending} type="submit" className="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2 mt-4 disabled:opacity-70">
                     {sending ? "Envoi..." : "Me faire rappeler"}
                   </button>
                 </form>
@@ -500,9 +538,9 @@ function SiteHeader() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${isScrolled ? "bg-white/90 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"}`}>
       <div className="mx-auto max-w-7xl px-6 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Logo className="h-14 w-auto" />
-          
+        {/* LOGO IMAGE ET TAILLE AJUSTÉE */}
+        <div className="flex items-center">
+          <Logo className="h-14 w-auto" /> 
         </div>
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
