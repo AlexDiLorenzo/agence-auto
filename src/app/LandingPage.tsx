@@ -19,9 +19,9 @@ import {
 // --------------------------------------------------------------------------------------
 // Logo Dynam8 (Version Image PNG)
 // --------------------------------------------------------------------------------------
+// On dit à ESLint d'ignorer l'avertissement sur la balise img pour ce composant spécifique
+/* eslint-disable @next/next/no-img-element */
 function Logo({ className = "h-auto w-auto" }: { className?: string }) {
-  // Note pour le déploiement : Next.js préfère le composant <Image /> pour les performances.
-  // Pour l'instant, on garde <img> pour que ça marche vite, mais l'avertissement dans les logs est normal.
   return (
     <img
       src="/logo.png"
@@ -83,7 +83,6 @@ export default function LandingPage() {
       const data = await r.json().catch(() => ({}));
       if (!r.ok || !data?.ok) {
         setSent("error");
-        // Utilisation de &rsquo; pour l'apostrophe
         setErrorMsg(data?.error || "Impossible d&rsquo;envoyer le message.");
       } else {
         setSent("ok");
@@ -97,11 +96,10 @@ export default function LandingPage() {
     }
   }
 
-  // --- Liste des FAQ (avec apostrophes corrigées) ---
+  // --- Liste des FAQ ---
   const faqs = [
     {
       q: "Est-ce que c'est autorisé par Google ?",
-      // Remplacement de ' par &rsquo;
       a: "Oui, à 100%. Nous utilisons les outils officiels de Google Business Profile. Nous ne faisons pas d&rsquo;achat de faux avis ni d&rsquo;incitations interdites. Notre système aide juste vos vrais clients à s&rsquo;exprimer plus facilement."
     },
     {
@@ -281,7 +279,6 @@ export default function LandingPage() {
                       <span className="font-bold text-green-600">~20 €</span>
                     </div>
                     
-                    {/* BLOC ROI DYNAMIQUE AVEC APOSTROPHE CORRIGÉE */}
                     <div className="bg-green-50 rounded-xl p-4 border border-green-100 transition-all duration-300">
                       <p className="text-green-800 font-medium text-sm leading-relaxed">
                         <span className="flex items-center gap-2 font-bold mb-1">
@@ -306,7 +303,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* TÉMOIGNAGES - AVEC APOSTROPHES CORRIGÉES */}
+        {/* TÉMOIGNAGES - AVEC GUILLEMETS CORRIGÉS */}
         <section className="py-24 bg-slate-50 border-t border-slate-200 scroll-mt-20">
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center max-w-2xl mx-auto mb-12">
@@ -322,8 +319,9 @@ export default function LandingPage() {
                 <div className="flex items-center gap-1 mb-4 text-amber-400">
                   <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
                 </div>
+                {/* Utilisation de &ldquo; et &rdquo; pour les guillemets */}
                 <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
-                  “Je négligeais Google par manque de temps. C&rsquo;est devenu <span className="bg-sky-50 text-sky-700 px-1 rounded font-bold">un vrai levier d&rsquo;acquisition</span> et de fidélisation. Ma fiche tourne seule et m&rsquo;amène des clients.”
+                  &ldquo;Je négligeais Google par manque de temps. C&rsquo;est devenu <span className="bg-sky-50 text-sky-700 px-1 rounded font-bold">un vrai levier d&rsquo;acquisition</span> et de fidélisation. Ma fiche tourne seule et m&rsquo;amène des clients.&rdquo;
                 </blockquote>
                 <div className="mt-6 flex items-center gap-3 pt-6 border-t border-slate-50 w-full">
                   <div className="size-10 rounded-full bg-sky-100 flex items-center justify-center text-xl">👨‍🍳</div>
@@ -340,7 +338,7 @@ export default function LandingPage() {
                   <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
                 </div>
                 <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
-                  “Ça me rassure énormément. Je ne me prends plus la tête : <span className="bg-violet-50 text-violet-700 px-1 rounded font-bold">ma page tourne toute seule</span>. Je gagne du temps et de la visibilité sans stress.”
+                  &ldquo;Ça me rassure énormément. Je ne me prends plus la tête : <span className="bg-violet-50 text-violet-700 px-1 rounded font-bold">ma page tourne toute seule</span>. Je gagne du temps et de la visibilité sans stress.&rdquo;
                 </blockquote>
                 <div className="mt-6 flex items-center gap-3 pt-6 border-t border-slate-50 w-full">
                   <div className="size-10 rounded-full bg-violet-100 flex items-center justify-center text-xl">👩‍🍳</div>
@@ -357,7 +355,7 @@ export default function LandingPage() {
                   <Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" /><Star className="size-4 fill-current" />
                 </div>
                 <blockquote className="text-slate-700 font-medium flex-1 leading-relaxed">
-                  “La gestion des avis négatifs est bien plus simple. <span className="bg-emerald-50 text-emerald-700 px-1 rounded font-bold">L&rsquo;alerte WhatsApp immédiate</span> en cas de mauvaise note me permet de désamorcer les problèmes rapidement.”
+                  &ldquo;La gestion des avis négatifs est bien plus simple. <span className="bg-emerald-50 text-emerald-700 px-1 rounded font-bold">L&rsquo;alerte WhatsApp immédiate</span> en cas de mauvaise note me permet de désamorcer les problèmes rapidement.&rdquo;
                 </blockquote>
                 <div className="mt-6 flex items-center gap-3 pt-6 border-t border-slate-50 w-full">
                   <div className="size-10 rounded-full bg-emerald-100 flex items-center justify-center text-xl">🔧</div>
@@ -555,7 +553,6 @@ function SiteHeader() {
   );
 }
 
-// Correction du type 'any' ici : on utilise React.ElementType
 function FeatureCard({ icon: Icon, title, desc, theme }: { icon: React.ElementType, title: string, desc: string, theme: "sky" | "violet" | "emerald" }) {
   const colors = {
     sky: "bg-sky-50 text-sky-700 border-sky-100 group-hover:border-sky-300",
