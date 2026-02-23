@@ -13,13 +13,13 @@ import {
   Image as ImageIcon,
   ChevronDown,
   Menu,
-  X
+  X,
+  TrendingUp
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------------
 // Logo Dynam8 (Version Image PNG)
 // --------------------------------------------------------------------------------------
-// On dit à ESLint d'ignorer l'avertissement sur la balise img pour ce composant spécifique
 /* eslint-disable @next/next/no-img-element */
 function Logo({ className = "h-auto w-auto" }: { className?: string }) {
   return (
@@ -35,28 +35,17 @@ function Logo({ className = "h-auto w-auto" }: { className?: string }) {
 // Page Principale
 // --------------------------------------------------------------------------------------
 export default function LandingPage() {
-  // --- ROI State ---
-  const [reviewsPerMonth, setReviewsPerMonth] = useState(30);
-  const [minutesPerReview, setMinutesPerReview] = useState(6);
-  const [hourCost, setHourCost] = useState(25);
+  
+  // --- ROI State (Nouvelle Logique : Croissance Réservations) ---
+  const [targetReservations, setTargetReservations] = useState(30);
+  const [avgCheck, setAvgCheck] = useState(50);
   const monthlyFee = 20;
 
-  const hoursPerMonth = useMemo(
-    () => (reviewsPerMonth * minutesPerReview) / 60,
-    [reviewsPerMonth, minutesPerReview]
-  );
-  const monthlySaved = useMemo(
-    () => Math.round(hoursPerMonth * hourCost),
-    [hoursPerMonth, hourCost]
-  );
-  const annualSaved = useMemo(() => monthlySaved * 12, [monthlySaved]);
-
-  // Calcul du Break-even point
-  const reviewsToBreakEven = useMemo(() => {
-    const costPerSingleReview = (minutesPerReview / 60) * hourCost;
-    if (costPerSingleReview <= 0) return 0;
-    return Math.ceil(monthlyFee / costPerSingleReview);
-  }, [minutesPerReview, hourCost, monthlyFee]);
+  // Calcul basé sur une croissance linéaire de 0 à Target sur 12 mois
+  // Le cumul sur l'année correspond environ à Target * 6.5
+  const totalReservationsYear = useMemo(() => targetReservations * 6.5, [targetReservations]);
+  const totalRevenueYear = useMemo(() => Math.round(totalReservationsYear * avgCheck), [totalReservationsYear, avgCheck]);
+  const totalCostYear = monthlyFee * 12;
 
   // --- Contact Form ---
   const [sending, setSending] = useState(false);
@@ -77,7 +66,7 @@ export default function LandingPage() {
       contact: String(formData.get("contact") || ""),
       phone: String(formData.get("phone") || ""),
       email: "non-fourni@contact-rapide.com",
-      message: "Demande de rappel depuis le formulaire simplifié (Vente Terrain)",
+      message: "Demande de rappel depuis le simulateur de croissance",
     };
 
     try {
@@ -163,7 +152,7 @@ export default function LandingPage() {
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-white text-slate-700 border border-slate-200 px-8 py-4 text-base font-semibold hover:bg-slate-50 hover:border-slate-300 transition-all duration-200"
               >
                 <Calculator className="size-4 text-sky-600" />
-                Simuler mes économies
+                Simuler mes gains
               </a>
             </div>
 
@@ -216,77 +205,60 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ROI CALCULATOR */}
+        {/* ROI CALCULATOR (MODIFIÉ) */}
         <section id="roi" className="py-24 bg-slate-50 scroll-mt-20 relative overflow-hidden">
           <div className="mx-auto max-w-7xl px-6 relative z-10">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div>
                 <h2 className="text-3xl font-bold text-slate-900 mb-4">
-                  Combien vous coûte la gestion manuelle ?
+                  Quel impact sur votre chiffre d&apos;affaires ?
                 </h2>
                 <p className="text-slate-600 mb-8">
-                  Utilisez ce simulateur avec vos chiffres réels. Le temps que vous passez sur Google est du temps que vous ne passez pas en cuisine ou avec vos clients.
+                  Une fiche Google active génère plus d&apos;appels et de réservations. 
+                  Simulez l&apos;évolution de votre activité sur 1 an avec Dynam8.
                 </p>
 
-                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 space-y-8">
                   {/* Sliders */}
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <div>
                       <div className="flex justify-between mb-2">
-                        <label className="text-sm font-medium text-slate-700">
-                          Avis reçus par mois
+                        <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">
+                          Objectif réservations /mois
                         </label>
-                        <span className="text-sm font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded">
-                          {reviewsPerMonth}
+                        <span className="text-sm font-black text-sky-600 bg-sky-50 px-2 py-0.5 rounded">
+                          +{targetReservations}
                         </span>
                       </div>
                       <input
                         type="range"
                         min="5"
-                        max="150"
+                        max="100"
                         step="5"
-                        value={reviewsPerMonth}
-                        onChange={(e) => setReviewsPerMonth(parseInt(e.target.value))}
-                        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sky-600"
+                        value={targetReservations}
+                        onChange={(e) => setTargetReservations(parseInt(e.target.value))}
+                        className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sky-600"
                       />
+                      <p className="text-[10px] text-slate-400 mt-2 italic">Croissance visée sur 12 mois (ex: de 0 à {targetReservations}/mois)</p>
                     </div>
 
                     <div>
                       <div className="flex justify-between mb-2">
-                        <label className="text-sm font-medium text-slate-700">
-                          Minutes pour répondre (lecture + rédaction)
+                        <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">
+                          Ticket moyen (Panier)
                         </label>
-                        <span className="text-sm font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded">
-                          {minutesPerReview} min
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min="1"
-                        max="15"
-                        value={minutesPerReview}
-                        onChange={(e) => setMinutesPerReview(parseInt(e.target.value))}
-                        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sky-600"
-                      />
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between mb-2">
-                        <label className="text-sm font-medium text-slate-700">
-                          Votre taux horaire estimé (€)
-                        </label>
-                        <span className="text-sm font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded">
-                          {hourCost} €/h
+                        <span className="text-sm font-black text-slate-900 bg-slate-100 px-2 py-0.5 rounded">
+                          {avgCheck} €
                         </span>
                       </div>
                       <input
                         type="range"
                         min="15"
-                        max="100"
+                        max="150"
                         step="5"
-                        value={hourCost}
-                        onChange={(e) => setHourCost(parseInt(e.target.value))}
-                        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900"
+                        value={avgCheck}
+                        onChange={(e) => setAvgCheck(parseInt(e.target.value))}
+                        className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900"
                       />
                     </div>
                   </div>
@@ -294,51 +266,41 @@ export default function LandingPage() {
               </div>
 
               {/* Resultat Card */}
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-sky-600 to-blue-600 rounded-3xl transform rotate-2 opacity-20 blur-lg"></div>
-                <div className="relative bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
-                  <div className="bg-slate-900 p-6 text-white text-center">
-                    <p className="text-slate-300 text-sm font-medium uppercase tracking-wider">
-                      Économie potentielle
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-tr from-sky-600 to-blue-600 rounded-3xl transform rotate-1 opacity-20 blur-xl group-hover:rotate-2 transition-transform"></div>
+                <div className="relative bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+                  <div className="bg-slate-900 p-8 text-white text-center">
+                    <p className="text-sky-400 text-xs font-bold uppercase tracking-[0.2em] mb-3">
+                      CA Additionnel Estimé (An 1)
                     </p>
-                    <div className="text-5xl font-extrabold mt-2 tracking-tight">
-                      {annualSaved.toLocaleString("fr-FR")} €{" "}
-                      <span className="text-xl font-normal text-slate-400">/an</span>
+                    <div className="text-6xl font-black mb-2 tracking-tighter">
+                      +{totalRevenueYear.toLocaleString("fr-FR")}€
                     </div>
-                    <p className="text-slate-400 text-sm mt-2">
-                      Soit {hoursPerMonth} heures de travail sauvées par mois
+                    <p className="text-slate-400 text-sm italic">
+                      Basé sur une progression linéaire
                     </p>
                   </div>
-                  <div className="p-8 text-center space-y-6">
-                    <div className="flex justify-between items-center text-sm border-b border-slate-100 pb-4">
-                      <span className="text-slate-500">Coût mensuel actuel</span>
-                      <span className="font-bold text-red-500 line-through decoration-red-500/50">
-                        {monthlySaved} €
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center text-sm pb-4">
-                      <span className="text-slate-500">Coût solution Dynam8</span>
-                      <span className="font-bold text-green-600">~20 €</span>
+                  
+                  <div className="p-8 space-y-6">
+                    <div className="flex justify-between items-center text-sm py-2 border-b border-slate-100">
+                      <span className="text-slate-500">Coût Dynam8 (12 mois)</span>
+                      <span className="font-bold text-slate-900">{totalCostYear} €</span>
                     </div>
 
-                    <div className="bg-green-50 rounded-xl p-4 border border-green-100 transition-all duration-300">
-                      <p className="text-green-800 font-medium text-sm leading-relaxed">
-                        <span className="flex items-center gap-2 font-bold mb-1">
-                          🚀 Retour sur investissement rapide
-                        </span>
-                        Avec vos paramètres actuels, vous rentabilisez l&rsquo;abonnement dès le{" "}
-                        <strong className="text-lg bg-green-200 px-1 rounded text-green-900">
-                          {reviewsToBreakEven > 0 ? `${reviewsToBreakEven}ème avis` : "..."}
-                        </strong>{" "}
-                        traité dans le mois.
+                    <div className="bg-emerald-50 rounded-2xl p-5 border border-emerald-100">
+                      <div className="flex items-center gap-2 text-emerald-800 font-bold mb-1">
+                        <TrendingUp className="size-5" /> ROI x{(totalRevenueYear / totalCostYear).toFixed(0)}
+                      </div>
+                      <p className="text-emerald-700 text-xs leading-relaxed">
+                        Le service s&apos;autofinance largement dès les premières réservations générées par votre nouvelle visibilité.
                       </p>
                     </div>
 
                     <a
                       href="#contact"
-                      className="block w-full rounded-xl bg-sky-600 text-white py-3 font-bold hover:bg-sky-700 transition"
+                      className="block w-full rounded-2xl bg-sky-600 text-white py-4 text-center font-black hover:bg-sky-700 transition shadow-lg shadow-sky-600/30 uppercase tracking-widest text-xs"
                     >
-                      Démarrer l&rsquo;économie
+                      Démarrer ma croissance
                     </a>
                   </div>
                 </div>
@@ -347,7 +309,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* TÉMOIGNAGES - SECTION CORRIGÉE */}
+        {/* TÉMOIGNAGES (RESTAURÉS À L'IDENTIQUE) */}
         <section className="py-24 bg-slate-50 border-t border-slate-200 scroll-mt-20">
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center max-w-2xl mx-auto mb-12">
@@ -668,7 +630,7 @@ function SiteHeader() {
             Solutions
           </a>
           <a href="#roi" className="hover:text-sky-600 transition">
-            Rentabilité
+            Simulateur
           </a>
           <a href="#tarifs" className="hover:text-sky-600 transition">
             Tarifs
@@ -702,7 +664,7 @@ function SiteHeader() {
             Solutions
           </a>
           <a href="#roi" onClick={() => setMobileOpen(false)} className="p-2 text-slate-600">
-            Rentabilité
+            Simulateur
           </a>
           <a href="#tarifs" onClick={() => setMobileOpen(false)} className="p-2 text-slate-600">
             Tarifs
@@ -741,7 +703,7 @@ function FeatureCard({
   return (
     <div
       className={`group p-6 rounded-2xl border bg-white transition duration-300 hover:shadow-md ${
-        colors[theme].split(" ").pop() // garde la classe de bordure + hover
+        colors[theme].split(" ").pop()
       }`}
     >
       <div
