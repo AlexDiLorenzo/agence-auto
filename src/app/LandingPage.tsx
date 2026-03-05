@@ -716,10 +716,12 @@ export default function LandingPage() {
                     ))}
                   </ul>
                   <a
-                    href="#contact"
+                    href="https://buy.stripe.com/28EcN5ehT1nA4BNbZX0Jq03"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="block w-full py-3 rounded-xl text-center text-sm font-bold transition-all duration-200 bg-white text-slate-900 hover:bg-slate-100"
                   >
-                    Choisir ce plan
+                    S&apos;abonner maintenant
                   </a>
                 </div>
 
