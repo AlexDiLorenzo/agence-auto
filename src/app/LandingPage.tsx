@@ -20,7 +20,6 @@ import {
   Users,
   Sparkles,
   ArrowUpRight,
-  Play,
 } from "lucide-react";
 
 // --------------------------------------------------------------------------------------
@@ -90,12 +89,12 @@ function useInView(options?: IntersectionObserverInit) {
 export default function LandingPage() {
 
   // --- ROI State ---
-  const [targetReservations, setTargetReservations] = useState(30);
+  const [targetClients, setTargetClients] = useState(30);
   const [avgCheck, setAvgCheck] = useState(50);
-  const monthlyFee = 20;
+  const monthlyFee = 25;
 
-  const totalReservationsYear = useMemo(() => targetReservations * 6.5, [targetReservations]);
-  const totalRevenueYear = useMemo(() => Math.round(totalReservationsYear * avgCheck), [totalReservationsYear, avgCheck]);
+  const totalClientsYear = useMemo(() => targetClients * 6.5, [targetClients]);
+  const totalRevenueYear = useMemo(() => Math.round(totalClientsYear * avgCheck), [totalClientsYear, avgCheck]);
   const totalCostYear = monthlyFee * 12;
   const animatedRevenue = useCountUp(totalRevenueYear);
 
@@ -158,8 +157,8 @@ export default function LandingPage() {
       a: "Non. Notre offre est sans engagement. Vous pouvez arrêter d'un mois sur l'autre. Nous misons sur la qualité de notre service pour vous garder, pas sur un contrat.",
     },
     {
-      q: "Ça marche vraiment pour les restaurants ?",
-      a: "C'est notre spécialité. Nos modèles de réponses et nos posts sont conçus spécifiquement pour la restauration : ton chaleureux, mise en avant de la cuisine, du service et de l'ambiance.",
+      q: "Ça fonctionne pour mon type de commerce ?",
+      a: "Oui. Nous accompagnons tous les types d'établissements : commerces de proximité, artisans, professions libérales, hôtels, garages, instituts de beauté, et bien d'autres. Nos réponses et publications sont personnalisées selon votre secteur et le ton de votre enseigne.",
     },
   ];
 
@@ -284,6 +283,13 @@ export default function LandingPage() {
           0% { opacity: 0; transform: translateY(-8px); }
           100% { opacity: 1; transform: translateY(0); }
         }
+
+        /* Sur mesure card gradient border */
+        .card-surmesure {
+          background: linear-gradient(white, white) padding-box,
+            linear-gradient(135deg, #0369a1, #7c3aed) border-box;
+          border: 2px solid transparent;
+        }
       `}</style>
 
       <div className="min-h-screen overflow-x-hidden">
@@ -297,7 +303,7 @@ export default function LandingPage() {
             {/* Background shapes */}
             <div className="absolute inset-0 -z-10 overflow-hidden">
               <div className="absolute -top-40 -right-40 w-[700px] h-[700px] rounded-full bg-gradient-to-br from-sky-100/60 to-cyan-50/40 blur-3xl" />
-              <div className="absolute -bottom-60 -left-40 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-amber-50/50 to-orange-50/30 blur-3xl" />
+              <div className="absolute -bottom-60 -left-40 w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-violet-50/50 to-indigo-50/30 blur-3xl" />
             </div>
 
             <div ref={heroAnim.ref} className="mx-auto max-w-6xl px-6">
@@ -310,7 +316,7 @@ export default function LandingPage() {
               </div>
 
               <h1 className={`fade-up fade-up-d1 ${heroAnim.inView ? "visible" : ""} font-display text-center text-4xl sm:text-5xl md:text-7xl font-800 tracking-tight leading-[1.08] mb-6`}>
-                Vous gérez la cuisine,
+                Vous gérez votre commerce,
                 <br />
                 <span className="relative inline-block">
                   <span className="relative z-10 text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(135deg, #0369a1 0%, #0ea5e9 50%, #7c3aed 100%)" }}>
@@ -321,7 +327,7 @@ export default function LandingPage() {
               </h1>
 
               <p className={`fade-up fade-up-d2 ${heroAnim.inView ? "visible" : ""} text-center mx-auto max-w-xl text-base sm:text-lg text-slate-500 leading-relaxed mb-10`} style={{ fontFamily: "var(--font-body)" }}>
-                Dynam8 automatise vos réponses aux avis, anime votre fiche Google et transforme vos visiteurs en clients réguliers.
+                Dynam8 automatise vos réponses aux avis, anime votre fiche Google et transforme vos visiteurs en clients fidèles — quel que soit votre secteur d&apos;activité.
               </p>
 
               <div className={`fade-up fade-up-d3 ${heroAnim.inView ? "visible" : ""} flex flex-col sm:flex-row items-center justify-center gap-3`}>
@@ -367,13 +373,13 @@ export default function LandingPage() {
                 <React.Fragment key={setIdx}>
                   {[
                     "⭐ 4.8 étoiles de moyenne pour nos clients",
-                    "🍕 +200 restaurants accompagnés",
-                    "📈 +35% de réservations en moyenne",
+                    "🏪 +200 établissements accompagnés",
+                    "📈 +35% de nouveaux clients en moyenne",
                     "💬 98% des avis répondus sous 1h",
                     "🇫🇷 Support 100% français",
                     "⭐ 4.8 étoiles de moyenne pour nos clients",
-                    "🍕 +200 restaurants accompagnés",
-                    "📈 +35% de réservations en moyenne",
+                    "🏪 +200 établissements accompagnés",
+                    "📈 +35% de nouveaux clients en moyenne",
                     "💬 98% des avis répondus sous 1h",
                     "🇫🇷 Support 100% français",
                   ].map((text, i) => (
@@ -398,7 +404,7 @@ export default function LandingPage() {
                   Trois piliers pour dominer Google
                 </h2>
                 <p className="mx-auto max-w-lg text-slate-500">
-                  Pendant que vous régalez vos clients, notre système travaille pour vous 24h/24.
+                  Pendant que vous servez vos clients, notre système travaille pour vous 24h/24.
                 </p>
               </div>
 
@@ -408,7 +414,7 @@ export default function LandingPage() {
                     icon: MessageSquare,
                     step: "01",
                     title: "Réponse aux avis",
-                    desc: "Fini le copier-coller. Une IA entraînée répond à chaque avis avec le ton de votre maison. Vous validez ou laissez faire.",
+                    desc: "Fini le copier-coller. Une IA personnalisée répond à chaque avis avec le ton de votre enseigne. Vous validez ou laissez faire.",
                     gradient: "from-sky-500 to-cyan-400",
                     bg: "bg-sky-50",
                   },
@@ -416,15 +422,15 @@ export default function LandingPage() {
                     icon: ImageIcon,
                     step: "02",
                     title: "Posts hebdomadaires",
-                    desc: "Google adore l'activité. Nous publions chaque semaine une photo (plat, ambiance) pour booster votre référencement local.",
+                    desc: "Google adore l'activité. Nous publions chaque semaine une photo ou un post pour maintenir votre fiche vivante et booster votre référencement local.",
                     gradient: "from-violet-500 to-purple-400",
                     bg: "bg-violet-50",
                   },
                   {
                     icon: Star,
                     step: "03",
-                    title: "Génération d'avis",
-                    desc: "Transformez vos clients silencieux en ambassadeurs. Envoi automatique d'un lien direct après leur visite.",
+                    title: "Boost des avis",
+                    desc: "Transformez vos clients silencieux en ambassadeurs. Relances automatiques et QR Code au comptoir pour multiplier vos avis positifs.",
                     gradient: "from-amber-500 to-orange-400",
                     bg: "bg-amber-50",
                   },
@@ -461,7 +467,7 @@ export default function LandingPage() {
                   Quel impact sur votre chiffre d&apos;affaires ?
                 </h2>
                 <p className="mx-auto max-w-lg text-slate-500">
-                  Une fiche Google active génère plus d&apos;appels et de réservations. Simulez l&apos;évolution sur 1 an.
+                  Une fiche Google active génère plus d&apos;appels et de clients. Simulez l&apos;évolution sur 1 an.
                 </p>
               </div>
 
@@ -471,19 +477,19 @@ export default function LandingPage() {
                   <div>
                     <div className="flex justify-between items-center mb-3">
                       <label className="text-sm font-semibold text-slate-700">
-                        Objectif réservations /mois
+                        Nouveaux clients visés / mois
                       </label>
                       <span className="text-sm font-black text-sky-700 bg-sky-50 px-2.5 py-1 rounded-lg tabular-nums">
-                        +{targetReservations}
+                        +{targetClients}
                       </span>
                     </div>
                     <input
                       type="range" min="5" max="100" step="5"
-                      value={targetReservations}
-                      onChange={(e) => setTargetReservations(parseInt(e.target.value))}
+                      value={targetClients}
+                      onChange={(e) => setTargetClients(parseInt(e.target.value))}
                       className="w-full cursor-pointer"
                     />
-                    <p className="text-[11px] text-slate-400 mt-2">Croissance visée : de 0 à {targetReservations}/mois sur 12 mois</p>
+                    <p className="text-[11px] text-slate-400 mt-2">Croissance visée : de 0 à {targetClients}/mois sur 12 mois</p>
                   </div>
 
                   <div>
@@ -506,12 +512,12 @@ export default function LandingPage() {
                   {/* Mini stats row */}
                   <div className="grid grid-cols-3 gap-3 pt-4 border-t border-slate-100">
                     <div className="text-center">
-                      <div className="text-2xl font-black text-slate-900 tabular-nums">{Math.round(totalReservationsYear)}</div>
-                      <div className="text-[11px] text-slate-400 mt-0.5">Réservations/an</div>
+                      <div className="text-2xl font-black text-slate-900 tabular-nums">{Math.round(totalClientsYear)}</div>
+                      <div className="text-[11px] text-slate-400 mt-0.5">Clients / an</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-black text-slate-900">{avgCheck}€</div>
-                      <div className="text-[11px] text-slate-400 mt-0.5">Panier moyen</div>
+                      <div className="text-[11px] text-slate-400 mt-0.5">Ticket moyen</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-black text-emerald-600">x{(totalRevenueYear / totalCostYear).toFixed(0)}</div>
@@ -547,7 +553,7 @@ export default function LandingPage() {
                           <TrendingUp className="size-4" /> Le service s&apos;autofinance
                         </div>
                         <p className="text-emerald-300/70 text-xs leading-relaxed">
-                          Dès les premières réservations générées par votre nouvelle visibilité.
+                          Dès les premiers clients générés par votre nouvelle visibilité.
                         </p>
                       </div>
 
@@ -574,9 +580,9 @@ export default function LandingPage() {
               <div className={`fade-up ${testimonialsAnim.inView ? "visible" : ""} text-center mb-14`}>
                 <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-sky-600 mb-3">Témoignages</span>
                 <h2 className="font-display text-3xl sm:text-4xl font-700 tracking-tight mb-4">
-                  Ils nous ont confié leurs clés
+                  Ils nous ont confié leur réputation
                 </h2>
-                <p className="text-slate-500">Restaurateurs et commerçants qui ont arrêté de gérer ça le dimanche soir.</p>
+                <p className="text-slate-500">Des professionnels de tous secteurs qui ont repris le contrôle de leur visibilité en ligne.</p>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6">
@@ -585,23 +591,23 @@ export default function LandingPage() {
                     quote: "Je négligeais Google par manque de temps. C'est devenu un vrai levier d'acquisition et de fidélisation.",
                     highlight: "un vrai levier d'acquisition",
                     name: "Gérant",
-                    role: "Restaurant – Neuilly-sur-Seine",
-                    emoji: "👨‍🍳",
+                    role: "Commerce — Neuilly-sur-Seine",
+                    emoji: "🛍️",
                     accent: "sky",
                   },
                   {
                     quote: "Ça me rassure énormément. Je ne me prends plus la tête : ma page tourne toute seule. Je gagne du temps et de la visibilité.",
                     highlight: "ma page tourne toute seule",
                     name: "Gérante",
-                    role: "Brasserie – Malakoff",
-                    emoji: "👩‍🍳",
+                    role: "Institut de beauté — Malakoff",
+                    emoji: "💅",
                     accent: "violet",
                   },
                   {
-                    quote: "La gestion des avis négatifs est bien plus simple. L'alerte WhatsApp immédiate me permet de désamorcer les problèmes rapidement.",
-                    highlight: "L'alerte WhatsApp immédiate",
+                    quote: "La gestion des avis négatifs est bien plus simple. L'alerte immédiate me permet de désamorcer les problèmes rapidement.",
+                    highlight: "L'alerte immédiate",
                     name: "Propriétaire",
-                    role: "Garage – Montpellier",
+                    role: "Garage — Montpellier",
                     emoji: "🔧",
                     accent: "emerald",
                   },
@@ -647,81 +653,112 @@ export default function LandingPage() {
                 <h2 className="font-display text-3xl sm:text-4xl font-700 tracking-tight mb-4">
                   Simples et transparents
                 </h2>
-                <p className="text-slate-500">Pas de frais d&apos;installation cachés. Tout est inclus.</p>
+                <p className="text-slate-500">Pas de frais d&apos;installation cachés. Sans engagement. Tout est inclus.</p>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6 items-stretch">
-                {[
-                  {
-                    title: "Essentiel",
-                    price: "10",
-                    desc: "L'indispensable pour ne plus ignorer vos avis",
-                    features: ["Réponses aux avis illimitées", "Détection multilingue", "Support Email"],
-                    popular: false,
-                  },
-                  {
-                    title: "Standard",
-                    price: "20",
-                    desc: "Le pack complet pour animer votre fiche",
-                    features: ["Réponses aux avis", "1 Post photo / semaine", "Calendrier éditorial", "Support Prioritaire"],
-                    popular: true,
-                  },
-                  {
-                    title: "Complet",
-                    price: "30",
-                    desc: "Maximisez votre visibilité locale",
-                    features: ["Tout du pack Standard", "Campagnes SMS/Email avis", "Rapport de performance", "Conseiller dédié"],
-                    popular: false,
-                  },
-                ].map((plan, i) => (
-                  <div
-                    key={plan.title}
-                    className={`fade-up fade-up-d${i + 1} ${pricingAnim.inView ? "visible" : ""} relative rounded-2xl p-7 flex flex-col ${
-                      plan.popular
-                        ? "bg-slate-900 text-white shadow-2xl shadow-slate-900/20 scale-[1.03] z-10"
-                        : "bg-white border border-slate-200 shadow-sm"
-                    }`}
-                  >
-                    {plan.popular && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider text-white"
-                        style={{ background: "linear-gradient(135deg, #0369a1, #7c3aed)" }}
-                      >
-                        Recommandé
-                      </div>
-                    )}
-                    <div className="mb-6">
-                      <h3 className={`text-sm font-semibold uppercase tracking-wider ${plan.popular ? "text-sky-400" : "text-slate-500"}`}>
-                        {plan.title}
-                      </h3>
-                      <div className="mt-3 flex items-baseline gap-1">
-                        <span className={`font-display text-4xl font-900 ${plan.popular ? "text-white" : "text-slate-900"}`}>{plan.price}€</span>
-                        <span className={`text-sm ${plan.popular ? "text-slate-400" : "text-slate-400"}`}>/mois</span>
-                      </div>
-                      <p className={`mt-2 text-xs ${plan.popular ? "text-slate-400" : "text-slate-400"}`}>{plan.desc}</p>
+                {/* Standard */}
+                <div className={`fade-up fade-up-d1 ${pricingAnim.inView ? "visible" : ""} relative rounded-2xl p-7 flex flex-col bg-white border border-slate-200 shadow-sm`}>
+                  <div className="mb-6">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500">Standard</h3>
+                    <div className="mt-3 flex items-baseline gap-1">
+                      <span className="font-display text-4xl font-900 text-slate-900">25€</span>
+                      <span className="text-sm text-slate-400">/mois</span>
                     </div>
-
-                    <ul className="space-y-3 mb-8 flex-1">
-                      {plan.features.map((f, fi) => (
-                        <li key={fi} className="flex items-start gap-2.5 text-sm">
-                          <CheckCircle2 className={`size-4 shrink-0 mt-0.5 ${plan.popular ? "text-sky-400" : "text-emerald-500"}`} />
-                          <span className={plan.popular ? "text-slate-300" : "text-slate-600"}>{f}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <a
-                      href="#contact"
-                      className={`block w-full py-3 rounded-xl text-center text-sm font-bold transition-all duration-200 ${
-                        plan.popular
-                          ? "bg-white text-slate-900 hover:bg-slate-100"
-                          : "bg-slate-100 text-slate-900 hover:bg-slate-200"
-                      }`}
-                    >
-                      Choisir ce plan
-                    </a>
+                    <p className="mt-2 text-xs text-slate-400">L&apos;essentiel pour booster votre visibilité locale</p>
                   </div>
-                ))}
+                  <ul className="space-y-3 mb-8 flex-1">
+                    {[
+                      "Réponse aux avis illimitées",
+                      "1 post / photo par semaine",
+                      "Support prioritaire",
+                    ].map((f, fi) => (
+                      <li key={fi} className="flex items-start gap-2.5 text-sm">
+                        <CheckCircle2 className="size-4 shrink-0 mt-0.5 text-emerald-500" />
+                        <span className="text-slate-600">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="#contact"
+                    className="block w-full py-3 rounded-xl text-center text-sm font-bold transition-all duration-200 bg-slate-100 text-slate-900 hover:bg-slate-200"
+                  >
+                    Choisir ce plan
+                  </a>
+                </div>
+
+                {/* Complet — Recommandé */}
+                <div className={`fade-up fade-up-d2 ${pricingAnim.inView ? "visible" : ""} relative rounded-2xl p-7 flex flex-col bg-slate-900 text-white shadow-2xl shadow-slate-900/20 scale-[1.03] z-10`}>
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider text-white"
+                    style={{ background: "linear-gradient(135deg, #0369a1, #7c3aed)" }}
+                  >
+                    Recommandé
+                  </div>
+                  <div className="mb-6">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-sky-400">Complet</h3>
+                    <div className="mt-3 flex items-baseline gap-1">
+                      <span className="font-display text-4xl font-900 text-white">49€</span>
+                      <span className="text-sm text-slate-400">/mois</span>
+                    </div>
+                    <p className="mt-2 text-xs text-slate-400">La solution complète pour dominer votre zone de chalandise</p>
+                  </div>
+                  <ul className="space-y-3 mb-8 flex-1">
+                    {[
+                      "Tout du plan Standard",
+                      "Programme de boost des avis",
+                      "Rapport de performance mensuel",
+                      "Conseiller dédié",
+                    ].map((f, fi) => (
+                      <li key={fi} className="flex items-start gap-2.5 text-sm">
+                        <CheckCircle2 className="size-4 shrink-0 mt-0.5 text-sky-400" />
+                        <span className="text-slate-300">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="#contact"
+                    className="block w-full py-3 rounded-xl text-center text-sm font-bold transition-all duration-200 bg-white text-slate-900 hover:bg-slate-100"
+                  >
+                    Choisir ce plan
+                  </a>
+                </div>
+
+                {/* Sur mesure */}
+                <div className={`fade-up fade-up-d3 ${pricingAnim.inView ? "visible" : ""} relative rounded-2xl p-7 flex flex-col card-surmesure shadow-sm`}>
+                  <div className="mb-6">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider" style={{ background: "linear-gradient(135deg, #0369a1, #7c3aed)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Sur mesure</h3>
+                    <div className="mt-3 flex items-baseline gap-1">
+                      <span className="font-display text-3xl font-900 text-slate-900">Sur devis</span>
+                    </div>
+                    <p className="mt-2 text-xs text-slate-400">Pour chaque situation unique, une solution adaptée</p>
+                  </div>
+                  <ul className="space-y-3 mb-8 flex-1">
+                    {[
+                      "Création / refonte de site web",
+                      "Nouvelle page Google Business",
+                      "Plateforme de réservation sur mesure",
+                      "Accompagnement stratégique",
+                    ].map((f, fi) => (
+                      <li key={fi} className="flex items-start gap-2.5 text-sm">
+                        <Sparkles className="size-4 shrink-0 mt-0.5 text-violet-500" />
+                        <span className="text-slate-600">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href="#contact"
+                    className="block w-full py-3 rounded-xl text-center text-sm font-bold transition-all duration-200 text-white"
+                    style={{ background: "linear-gradient(135deg, #0369a1, #7c3aed)" }}
+                  >
+                    Nous contacter
+                  </a>
+                </div>
               </div>
+
+              {/* Reassurance below pricing */}
+              <p className={`fade-up fade-up-d4 ${pricingAnim.inView ? "visible" : ""} text-center text-xs text-slate-400 mt-8`}>
+                Premier mois satisfait ou remboursé · Sans engagement · Résiliation en 1 clic
+              </p>
             </div>
           </section>
 
@@ -783,12 +820,12 @@ export default function LandingPage() {
                   <form onSubmit={handleSubmit} className="p-7 space-y-4 text-left">
                     <div>
                       <label className="block text-xs font-semibold text-slate-600 mb-1.5 uppercase tracking-wider">
-                        Nom du restaurant
+                        Nom de votre établissement
                       </label>
                       <input
                         required type="text" name="name"
                         className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500 outline-none transition"
-                        placeholder="Chez Mario"
+                        placeholder="Mon enseigne"
                       />
                     </div>
                     <div className="grid grid-cols-2 gap-3">
@@ -799,7 +836,7 @@ export default function LandingPage() {
                         <input
                           required type="text" name="contact"
                           className="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500 outline-none transition"
-                          placeholder="Mario"
+                          placeholder="Jean Dupont"
                         />
                       </div>
                       <div>
@@ -865,7 +902,7 @@ export default function LandingPage() {
         {/* Footer */}
         <footer className="bg-white py-8 border-t border-slate-100 text-center">
           <p className="text-sm text-slate-400">
-            © {new Date().getFullYear()} Dynam8 · Fait avec ❤️ pour les restaurateurs.
+            © {new Date().getFullYear()} Dynam8 · Fait avec ❤️ pour les commerçants.
           </p>
         </footer>
       </div>
