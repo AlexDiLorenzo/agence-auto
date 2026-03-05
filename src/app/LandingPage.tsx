@@ -680,10 +680,12 @@ export default function LandingPage() {
                     ))}
                   </ul>
                   <a
-                    href="#contact"
+                    href="https://buy.stripe.com/8x2fZh8Xz6HUecn9RP0Jq05"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="block w-full py-3 rounded-xl text-center text-sm font-bold transition-all duration-200 bg-slate-100 text-slate-900 hover:bg-slate-200"
                   >
-                    Choisir ce plan
+                    S&apos;abonner maintenant
                   </a>
                 </div>
 
@@ -716,7 +718,7 @@ export default function LandingPage() {
                     ))}
                   </ul>
                   <a
-                    href="https://buy.stripe.com/28EcN5ehT1nA4BNbZX0Jq03"
+                    href="https://buy.stripe.com/14A6oHc9LaYa7NZggd0Jq04"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full py-3 rounded-xl text-center text-sm font-bold transition-all duration-200 bg-white text-slate-900 hover:bg-slate-100"
